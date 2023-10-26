@@ -41,7 +41,7 @@ type ShippingScheduleInputs = {
 };
 
 
-type shippingAddress = {
+type ShippingAddress = {
   id: bigint;
   created_at: Date;
   updated_at: Date | null;
