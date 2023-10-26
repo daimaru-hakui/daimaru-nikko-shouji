@@ -1,11 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 
-type ResponseData = {
-  message: string;
-};
-
-export default async function GET(request: Request, { params }: { params: { id: number } }) {
+export default async function GET(request: NextApiRequest, { params }: { params: { id: number } }) {
 
   console.log(params.id)
   const prisma = new PrismaClient();
