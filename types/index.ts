@@ -1,13 +1,13 @@
 type OrderInputs = {
   contents: {
     supplierId: string;
-    supplierName:string;
+    supplierName: string;
     productNumber: string;
     productName: string;
     color: string;
     size: string;
     quantity: string;
-    processing:boolean
+    processing: boolean;
     comment: string;
   }[];
 };
@@ -18,7 +18,7 @@ type Carts = {
   topicName: string;
   contents: {
     supplierId: string;
-    supplierName:string;
+    supplierName: string;
     productNumber: string;
     productName: string;
     color: string;
@@ -49,4 +49,14 @@ type ShippingAddress = {
   tel: string;
   address: string;
   post_code: string;
-}
+};
+
+type Supplier = {
+  id: number;
+  created_at: Date;
+  updated_at: Date | null;
+  name: string;
+  tel: string;
+  address: string;
+  post_code: string;
+};

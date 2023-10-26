@@ -10,11 +10,12 @@ import OrderConfirm from "./order-confirm";
 import OrderCompletion from "./order-completion";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/store/index";
+import axios from "axios";
 
 
 interface Props {
   products: any[];
-  suppliers: any[];
+  suppliers: Supplier[];
 }
 
 const OrderForm: FC<Props> = ({ products, suppliers }) => {
@@ -81,9 +82,7 @@ const OrderForm: FC<Props> = ({ products, suppliers }) => {
   };
 
   const createOrder = async (carts: Carts) => {
-
-
-
+    await axios.post('/api/orders', carts);
   };
 
   const createDetails = async (carts: Carts, id: number) => {

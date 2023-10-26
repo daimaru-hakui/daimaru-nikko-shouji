@@ -57,7 +57,7 @@ export const useStore = create<Store>((set) => ({
   resetCarts: () =>
     set({
       carts: {
-        shippingAddress: 0,
+        shippingAddress: 1,
         orderNumber: "",
         topicName: "",
         contents: [],
