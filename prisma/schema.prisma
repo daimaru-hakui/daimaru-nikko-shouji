@@ -7,27 +7,27 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = process.env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model orders {
-  id                  BigInt             @id @default(autoincrement())
+  id                  Int                @id @default(autoincrement())
   created_at          DateTime           @default(now()) @db.Timestamptz(6)
   order_number        String             @default("")
   processing          Boolean            @default(false)
-  shipping_address_id BigInt
   topic_name          String             @default("")
   order_status        String             @default("UNREAD")
   deleted_at          DateTime?          @db.Timestamp(6)
   order_details       order_details[]
+  shipping_address_id Int
   shipping_addresses  shipping_addresses @relation(fields: [shipping_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
 }
 
 model order_details {
-  id               BigInt             @id @default(autoincrement())
+  id               Int                @id @default(autoincrement())
   created_at       DateTime           @default(now()) @db.Timestamptz(6)
-  order_history_id BigInt
+  order_history_id Int
   product_number   String             @default("")
   product_name     String             @default("")
   color            String             @default("")
@@ -35,7 +35,7 @@ model order_details {
   quantity         Int                @default(0)
   comment          String             @default("")
   order_quantity   Int                @default(0)
-  supplier_id      BigInt
+  supplier_id      Int
   processing       Boolean            @default(false)
   orders  orders    @relation(fields: [order_history_id], references: [id], onDelete: Cascade)
   suppliers        suppliers          @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
@@ -43,41 +43,41 @@ model order_details {
 }
 
 model shipping_addresses { 
-  id                 BigInt               @id @default(autoincrement())
+  id                 Int                  @id @default(autoincrement())
   created_at         DateTime             @default(now()) @db.Timestamptz(6)
   updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
   name               String               @default("")
   tel                String               @default("")
   address            String               @default("")
   post_code          String               @default("")
-  orders    orders[]
+  orders             orders[]
   shipping_histories shipping_histories[]
 }
 
 model shipping_details {
-  id                  BigInt             @id @default(autoincrement())
+  id                  Int                @id @default(autoincrement())
   created_at          DateTime           @default(now()) @db.Timestamptz(6)
-  order_detail_id     BigInt?
   quantity            Int                @default(0)
   updated_at          DateTime           @default(now()) @db.Timestamptz(6)
-  shipping_history_id BigInt
+  order_detail_id     Int?
   order_details       order_details?     @relation(fields: [order_detail_id], references: [id], onDelete: Cascade)
+  shipping_history_id Int
   shipping_histories  shipping_histories @relation(fields: [shipping_history_id], references: [id], onDelete: Cascade)
 }
 
 model shipping_histories {
-  id                  BigInt              @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   created_at          DateTime            @default(now()) @db.Timestamptz(6)
   updated_at          DateTime            @default(now()) @db.Timestamptz(6)
   shipping_date       DateTime            @db.Date
-  shipping_address_id BigInt?
-  shipping_details    shipping_details[]
+  shipping_address_id Int?
   shipping_addresses  shipping_addresses? @relation(fields: [shipping_address_id], references: [id], onDelete: Cascade)
+  shipping_details    shipping_details[]
 }
 
 
 model suppliers {
-  id            BigInt          @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   created_at    DateTime        @default(now()) @db.Timestamptz(6)
   name          String          @default("")
   code          String          @default("-")
