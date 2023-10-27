@@ -1,4 +1,5 @@
 import { useStore } from "@/store/index";
+import { OrderInputs, Supplier } from "@/types/index";
 import { Switch } from "@material-tailwind/react";
 import React, { FC, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -29,8 +30,8 @@ const OrderContentTableRow: FC<Props> = ({
   const productNumbers = useStore((state) => state.productNumbers);
   const productNames = useStore((state) => state.productNames);
   const productColors = useStore((state) => state.productColors);
-  const suppliers = useStore((state) => state.suppliers);
   const supplierId = watch(`contents.${idx}.supplierId`);
+  const suppliers = useStore((state) => state.suppliers);
   const supplier = suppliers.find((supplier) => supplier.id === +supplierId);
 
   useEffect(() => {

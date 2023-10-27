@@ -1,4 +1,6 @@
-type OrderInputs = {
+import { suppliers } from "@prisma/client";
+
+export type OrderInputs = {
   contents: {
     supplierId: string;
     supplierName: string;
@@ -12,7 +14,7 @@ type OrderInputs = {
   }[];
 };
 
-type Carts = {
+export type Carts = {
   shippingAddress: number;
   orderNumber: string;
   topicName: string;
@@ -29,7 +31,7 @@ type Carts = {
   }[];
 };
 
-type ShippingScheduleInputs = {
+export type ShippingScheduleInputs = {
   shippingDate: string;
   contents: {
     order_detail_id: number;
@@ -40,8 +42,7 @@ type ShippingScheduleInputs = {
   }[];
 };
 
-
-type ShippingAddress = {
+export type ShippingAddress = {
   id: number;
   created_at: Date;
   updated_at: Date | null;
@@ -51,12 +52,36 @@ type ShippingAddress = {
   post_code: string;
 };
 
-type Supplier = {
+export type Supplier = {
   id: number;
   created_at: Date;
-  updated_at: Date | null;
   name: string;
-  tel: string;
-  address: string;
-  post_code: string;
+  code: string;
+  turn: number;
+};
+
+export type Order = {
+  id: number;
+  order_status: string;
+  order_number: string;
+  order_details: OrderDetail[];
+  shipping_addresses: ShippingAddress
+  created_at: Date;
+  deleted_at: Date | null;
+};
+
+export type OrderDetail = {
+  id: number;
+  created_at: Date;
+  order_history_id: bigint;
+  product_number: string;
+  product_name: string;
+  color: string;
+  size: string;
+  quantity: number;
+  comment: string;
+  order_quantity: number;
+  supplier_id: bigint;
+  processing: boolean;
+  suppliers:Supplier;
 };

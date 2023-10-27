@@ -1,7 +1,14 @@
-'use client';
-import React, { FC, useState } from 'react';
-import OrderContentTableRow from './order-content-table-row';
-import { UseFormReturn, FieldArrayWithId, UseFieldArrayRemove } from 'react-hook-form';
+"use client";
+import React, { FC, useEffect, useState } from "react";
+import OrderContentTableRow from "./order-content-table-row";
+import {
+  UseFormReturn,
+  FieldArrayWithId,
+  UseFieldArrayRemove,
+} from "react-hook-form";
+import axios from "axios";
+import { suppliers } from "@prisma/client";
+import { OrderInputs, Supplier } from "@/types/index";
 
 interface Props {
   methods: UseFormReturn<OrderInputs, any, undefined>;
@@ -12,6 +19,7 @@ interface Props {
 const OrderContentTable: FC<Props> = ({ methods, fields, remove }) => {
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const { watch, setValue } = methods;
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
   const removeRowHandler = (idx: number) => {
     remove(idx);
@@ -42,14 +50,6 @@ const OrderContentTable: FC<Props> = ({ methods, fields, remove }) => {
     setDragIndex(null);
   };
 
-  const getSuppliers = async () => {
-    const url = `${process.env.NEXT_PUBLIC_URL}/api/suppliers`;
-    const response = await fetch(url);
-    const users = await response.json();
-    console.log(users);
-    return users;
-  };
-
   return (
     <table className="w-full max-w-[calc(1500px)] min-w-[calc(1400px)] ">
       <thead>
@@ -61,7 +61,9 @@ const OrderContentTable: FC<Props> = ({ methods, fields, remove }) => {
           <th className="px-2">品名</th>
           <th className="px-2">カラー</th>
           <th className="px-2">サイズ</th>
-          <th className="px-2">数量<span className='text-red-500'>*</span></th>
+          <th className="px-2">
+            数量<span className="text-red-500">*</span>
+          </th>
           <th className="px-2">備考</th>
           <th className="px-2 w-28 text-center">二次加工</th>
         </tr>

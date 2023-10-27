@@ -11,6 +11,7 @@ import OrderCompletion from "./order-completion";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/store/index";
 import axios from "axios";
+import { Carts, OrderInputs, Supplier } from "@/types/index";
 
 
 interface Props {
@@ -81,28 +82,10 @@ const OrderForm: FC<Props> = ({ products, suppliers }) => {
     window.scrollTo(0, 0);
   };
 
-  const createOrder = async (carts: Carts) => {
-    await axios.post('/api/orders', carts);
-  };
-
-  const createDetails = async (carts: Carts, id: number) => {
-    const array = carts.contents.map((content) => ({
-      order_history_id: id,
-      supplier_id: Number(content.supplierId),
-      product_number: content.productNumber.trim(),
-      product_name: content.productName.trim(),
-      color: content.color.trim(),
-      size: content.size.trim() || "",
-      quantity: Number(content.quantity),
-      order_quantity: Number(content.quantity),
-      comment: content.comment.trim() || "",
-    }));
-
-  };
+  console.log(carts)
 
   const onClickRegisterHandler = async (carts: Carts) => {
-    const id: any = await createOrder(carts);
-    await createDetails(carts, id);
+    await axios.post('/api/orders', carts);
     handleNext();
     resetCarts();
     reset();

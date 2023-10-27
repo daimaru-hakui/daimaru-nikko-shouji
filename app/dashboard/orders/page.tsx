@@ -3,17 +3,24 @@ import OrderForm from "./components/order-form";
 import { PrismaClient } from "@prisma/client";
 
 const OrderOage = async () => {
-  const prisma = new PrismaClient();
-
+  const prisma = new PrismaClient()
   const getProducts = async () => {
 
     return [];
   };
 
   const getSuppliers = async () => {
-    const suppliers = await prisma.suppliers.findMany();
+    const response = await prisma.suppliers.findMany();
+    const data = response.map((value) => {
+      const int =
+        typeof value.id === "bigint" ? Number(value.id.toString()) : value.id;
+      return {
+        ...value,
+        id: int,
+      };
+    });
     await prisma.$disconnect();
-    return suppliers;
+    return data;
   };
 
   const products = await getProducts();
