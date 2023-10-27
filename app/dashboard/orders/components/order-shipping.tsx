@@ -28,7 +28,7 @@ const OrderShipping: FC = () => {
       const res = await axios.get(
         `/api/shipping-addresses/${carts.shippingAddress}`
       );
-      const { data }: { data: ShippingAddress } = res.data;
+      const { data }: { data: ShippingAddress; } = res.data;
       setShippingAddress(data);
     };
     getShippingAddress();
