@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -8,24 +8,13 @@ import {
 } from "@material-tailwind/react";
 import OrderShippingAddressTableRow from "./order-shipping-address-table-row";
 import { AiOutlineClose } from "react-icons/ai";
-import axios from "axios";
+import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
 
 const OrderShippingAddressModal = () => {
-  const [addresses, setAddresses] = useState<ShippingAddress[]>([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
 
-  useEffect(() => {
-    getAddresses();
-  }, []);
-
-  const getAddresses = async () => {
-    const response = await axios.get(
-      `/api/shipping-addresses/`
-    );
-    const { data } = response.data;
-    setAddresses(data);
-  };
+  const { data: shippingAddresses } = useGetShippingAddressAll();
 
   const StyleTableTh =
     "border-b border-blue-gray-100 bg-blue-gray-50 p-4 text-left";
@@ -53,7 +42,7 @@ const OrderShippingAddressModal = () => {
               </tr>
             </thead>
             <tbody>
-              {addresses.map((address) => (
+              {shippingAddresses?.map((address) => (
                 <OrderShippingAddressTableRow
                   key={address.id}
                   address={address}

@@ -1,25 +1,15 @@
+import { useGetShippingAddressById } from '@/hooks/useGetShippingAddressById';
 import { useStore } from '@/store/index';
-import axios from 'axios';
-import React, { FC, useState,useEffect } from 'react';
-
+import React, { FC } from 'react';
 
 const OrderConfirm: FC = () => {
   const carts = useStore((state) => state.carts);
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress>();
-
-  useEffect(() => {
-    const getShippingAddress = async () => {
-      const res = await axios.get(
-        `/api/shipping-addresses/${carts.shippingAddress}`
-      );
-      const { data }: { data: ShippingAddress } = res.data;
-      setShippingAddress(data);
-    };
-    getShippingAddress();
-  }, [carts.shippingAddress]);
+  const shippingAddressId = carts.shippingAddress;
+  const { data: shippingAddress } = useGetShippingAddressById({ shippingAddressId });
 
   const StyleTableTh = "border-b border-blue-gray-100 bg-gray-100 p-4";
   const StyleTableTd = "p-4 border-b border-blue-gray-50";
+
   return (
     <>
       <div className='font-bold'>発注明細</div>

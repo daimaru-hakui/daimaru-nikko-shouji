@@ -26,6 +26,8 @@
       "@/store/*": ["./store/*"],
       "@/firebase/*": ["./firebase/*"],
       "@/types/*": ["./types/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/utils/*": ["./utils/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

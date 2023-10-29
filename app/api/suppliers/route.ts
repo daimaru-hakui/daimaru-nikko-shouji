@@ -1,3 +1,4 @@
+import { bigintToIntHandler } from "@/utils/functions";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -7,11 +8,9 @@ export async function GET() {
   try {
     const response = await prisma.suppliers.findMany();
     const data = response.map((value) => {
-      const int =
-        typeof value.id === "bigint" ? Number(value.id.toString()) : value.id;
       return {
         ...value,
-        id: int,
+        id: bigintToIntHandler(value.id)
       };
     });
     return NextResponse.json({ data }, { status: 200 });

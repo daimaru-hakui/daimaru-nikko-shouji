@@ -1,3 +1,4 @@
+import { bigintToIntHandler } from "@/utils/functions";
 import { PrismaClient } from "@prisma/client";
 
 export async function GET(
@@ -5,16 +6,16 @@ export async function GET(
   { params }: { params: { id: number; }; }
 ) {
   const prisma = new PrismaClient();
-  const response = await prisma.shipping_addresses.findUnique({
+  const res = await prisma.shipping_addresses.findUnique({
     where: {
       id: Number(params.id),
     },
   });
 
+  if(!res) return
   const data = {
-    ...response,
-    id:
-      typeof response?.id === "bigint" ? Number(response.id).toString() : response?.id,
+    ...res,
+    id:bigintToIntHandler(res.id)
   };
   return Response.json({ data });
 }

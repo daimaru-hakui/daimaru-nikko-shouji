@@ -19,7 +19,6 @@ interface Props {
 const OrderContentTable: FC<Props> = ({ methods, fields, remove }) => {
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const { watch, setValue } = methods;
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
   const removeRowHandler = (idx: number) => {
     remove(idx);
