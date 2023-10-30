@@ -1,31 +1,31 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { getServerSession } from 'next-auth';
-import { options } from '@/provider/options';
+import { options } from '@/providers/options';
 
 const ShippingSchedules: NextPage = async () => {
-//   const getShippingSchedules = async () => {
-//     const { data, error } = await supabase
-//       .from("order_details")
-//       .select(`*,order_histories(*,shipping_addresses(*)),suppliers(*)`)
-//       .gt("quantity", 0)
-//       .order("id", { ascending: false });
-//     if (error) {
-//       alert(error.message);
-//     }
-//     if (!data) return;
-//     return data;
-//   };
+  //   const getShippingSchedules = async () => {
+  //     const { data, error } = await supabase
+  //       .from("order_details")
+  //       .select(`*,order_histories(*,shipping_addresses(*)),suppliers(*)`)
+  //       .gt("quantity", 0)
+  //       .order("id", { ascending: false });
+  //     if (error) {
+  //       alert(error.message);
+  //     }
+  //     if (!data) return;
+  //     return data;
+  //   };
 
   const getUserId = async () => {
-    const session = await getServerSession(options)
-    return session?.user.uid
+    const session = await getServerSession(options);
+    return session?.user.uid;
   };
 
-//   const shippingSchedules = await getShippingSchedules();
+  //   const shippingSchedules = await getShippingSchedules();
   const userId = await getUserId();
 
-//   if (!shippingSchedules) return;
+  //   if (!shippingSchedules) return;
   if (!userId) return;
 
   return (

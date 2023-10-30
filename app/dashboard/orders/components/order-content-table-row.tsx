@@ -1,10 +1,12 @@
+import { useGetSupplierAll } from "@/hooks/useGetSupplierAll";
 import { useStore } from "@/store/index";
-import { OrderInputs, Supplier } from "@/types/index";
+import { OrderInputs } from "@/types/index";
 import { Switch } from "@material-tailwind/react";
 import React, { FC, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CgCopy } from "react-icons/cg";
+
 
 interface Props {
   methods: UseFormReturn<OrderInputs, any, undefined>;
@@ -31,8 +33,9 @@ const OrderContentTableRow: FC<Props> = ({
   const productNames = useStore((state) => state.productNames);
   const productColors = useStore((state) => state.productColors);
   const supplierId = watch(`contents.${idx}.supplierId`);
-  const suppliers = useStore((state) => state.suppliers);
-  const supplier = suppliers.find((supplier) => supplier.id === +supplierId);
+
+  const { data: suppliers } = useGetSupplierAll();
+  const supplier = suppliers?.find((supplier) => supplier.id === Number(supplierId));
 
   useEffect(() => {
     if (supplier) {
@@ -77,7 +80,7 @@ const OrderContentTableRow: FC<Props> = ({
           {...register(`contents.${idx}.supplierId`)}
         >
           <option value="99">選択してください</option>
-          {suppliers.map(({ id, name }) => (
+          {suppliers?.map(({ id, name }) => (
             <option key={id} value={id}>
               {name}
             </option>

@@ -11,18 +11,10 @@ import OrderCompletion from "./order-completion";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/store/index";
 import axios from "axios";
-import { Carts, OrderInputs, Supplier } from "@/types/index";
+import { Carts, OrderInputs } from "@/types/index";
 
-
-interface Props {
-  products: any[];
-  suppliers: Supplier[];
-}
-
-const OrderForm: FC<Props> = ({ products, suppliers }) => {
+const OrderForm: FC = () => {
   const router = useRouter();
-  const setProducts = useStore((state) => state.setProducts);
-  const setSuppliers = useStore((state) => state.setSuppliers);
   const carts = useStore((state) => state.carts);
   const resetCarts = useStore((state) => state.resetCarts);
   const setCartContents = useStore((state) => state.setCartContents);
@@ -82,8 +74,6 @@ const OrderForm: FC<Props> = ({ products, suppliers }) => {
     window.scrollTo(0, 0);
   };
 
-  console.log(carts)
-
   const onClickRegisterHandler = async (carts: Carts) => {
     await axios.post('/api/orders', carts);
     handleNext();
@@ -108,14 +98,6 @@ const OrderForm: FC<Props> = ({ products, suppliers }) => {
         return;
     }
   };
-
-  useEffect(() => {
-    setProducts(products);
-  }, [products, setProducts]);
-
-  useEffect(() => {
-    setSuppliers(suppliers);
-  }, [suppliers, setSuppliers]);
 
   return (
     <>

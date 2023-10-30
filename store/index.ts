@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { Carts, OrderInputs } from "../types";
 
 
 type Store = {

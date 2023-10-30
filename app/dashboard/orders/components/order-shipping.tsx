@@ -1,38 +1,21 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import OrderShippingAddressModal from "./order-shipping-address-modal";
-import axios from "axios";
 import { useStore } from "@/store/index";
+import { useGetShippingAddressById } from "@/hooks/useGetShippingAddressById";
 
 const OrderShipping: FC = () => {
   const carts = useStore((state) => state.carts);
+  const shippingAddressId = carts.shippingAddress;
   const setCartOthers = useStore((state) => state.setCartOthers);
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress>();
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     setCartOthers({ name, value: e.target.value });
   };
 
-  // const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const name = e.target.name;
-  //   if (e.target.checked === true) {
-  //     setCartOthers({ name, value: true });
-  //   } else {
-  //     setCartOthers({ name, value: false });
-  //   };
-  // };
-
-  useEffect(() => {
-    const getShippingAddress = async () => {
-      const res = await axios.get(
-        `/api/shipping-addresses/${carts.shippingAddress}`
-      );
-      const { data }: { data: ShippingAddress; } = res.data;
-      setShippingAddress(data);
-    };
-    getShippingAddress();
-  }, [carts.shippingAddress]);
+  const { data: shippingAddress } = useGetShippingAddressById({ shippingAddressId });
+  console.log(shippingAddress);
 
   return (
     <div className="w-full max-w-[calc(1000px)] mx-auto">
@@ -53,16 +36,6 @@ const OrderShipping: FC = () => {
           <OrderShippingAddressModal />
         </div>
       </div>
-
-      {/* <div className='w-full mt-12'>
-        <div className='font-bold'>希望納期</div>
-        <input className={`${inputStyle} mt-3 p-3 w-full max-w-[calc(500px)]`}
-          type="date"
-          name="desiredDeliveryOn"
-          value={carts.desiredDeliveryOn}
-          onChange={handleChangeInput}
-        />
-      </div> */}
 
       <div className="w-full mt-12">
         <div className="font-bold">貴社注文番号</div>
