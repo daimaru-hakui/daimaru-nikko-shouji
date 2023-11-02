@@ -8,7 +8,7 @@ export async function GET() {
   const data = res.map((value) => {
     return {
       ...value,
-      id: bigintToIntHandler(value.id)
+      id: bigintToIntHandler(Number(value.id))
     };
   });
   return Response.json({ data });

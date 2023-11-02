@@ -10,10 +10,10 @@ export async function GET() {
     const data = response.map((value) => {
       return {
         ...value,
-        id: bigintToIntHandler(value.id)
+        id: bigintToIntHandler(Number(value.id))
       };
     });
-    return NextResponse.json({ data }, { status: 200 });
+    return NextResponse.json( data , { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 401 });
   } finally {

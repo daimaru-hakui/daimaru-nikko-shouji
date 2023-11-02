@@ -1,14 +1,14 @@
 "use client";
 
-import { Order } from "@/types/index";
 import React, { FC } from "react";
 import OrderHistoryTableRow from "./order-history-table-row";
+import { useGetOrderAll } from "@/hooks/useGetOrderAll";
 
-interface Props {
-  orders: Order[];
-}
-
-const OrderHistoryTable: FC<Props> = ({orders}) => {
+const OrderHistoryTable: FC = () => {
+  const { orders,isLoading  } = useGetOrderAll();
+  console.log(orders);
+  console.log(isLoading )
+  
   const StyleTableTh = "py-2 px-1 text-left border-b";
 
   return (
@@ -27,7 +27,7 @@ const OrderHistoryTable: FC<Props> = ({orders}) => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <OrderHistoryTableRow key={order.id} order={order} />
           ))}
         </tbody>

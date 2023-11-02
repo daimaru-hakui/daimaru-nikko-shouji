@@ -7,7 +7,6 @@ import { UseFormReturn } from "react-hook-form";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CgCopy } from "react-icons/cg";
 
-
 interface Props {
   methods: UseFormReturn<OrderInputs, any, undefined>;
   idx: number;
@@ -34,8 +33,11 @@ const OrderContentTableRow: FC<Props> = ({
   const productColors = useStore((state) => state.productColors);
   const supplierId = watch(`contents.${idx}.supplierId`);
 
-  const { data: suppliers } = useGetSupplierAll();
-  const supplier = suppliers?.find((supplier) => supplier.id === Number(supplierId));
+  const { suppliers } = useGetSupplierAll();
+  
+  const supplier = suppliers?.find(
+    (supplier) => supplier.id === Number(supplierId)
+  );
 
   useEffect(() => {
     if (supplier) {

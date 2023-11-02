@@ -15,7 +15,7 @@ export async function GET(
   if(!res) return
   const data = {
     ...res,
-    id:bigintToIntHandler(res.id)
+    id:bigintToIntHandler(Number(res.id))
   };
   return Response.json({ data });
 }
