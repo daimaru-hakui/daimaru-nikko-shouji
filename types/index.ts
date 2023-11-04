@@ -64,7 +64,9 @@ export type Order = {
   id: number;
   order_status: string;
   order_number: string;
+  topic_name: string;
   order_details: OrderDetail[];
+  shipping_address_id: number;
   shipping_addresses: ShippingAddress
   created_at: Date;
   deleted_at: Date | null;
@@ -73,7 +75,7 @@ export type Order = {
 export type OrderDetail = {
   id: number;
   created_at: Date;
-  order_history_id: bigint;
+  order_id: number;
   product_number: string;
   product_name: string;
   color: string;
@@ -85,3 +87,20 @@ export type OrderDetail = {
   processing: boolean;
   suppliers:Supplier;
 };
+
+export type ShippingSchedule = {
+  id: number;
+  created_at: Date;
+  product_number: string;
+  product_name: string;
+  color: string;
+  size: string;
+  quantity: number;
+  comment: string;
+  order_quantity: number;
+  processing: boolean;
+  order_id: number;
+  orders:Order
+  supplier_id: number; 
+  suppliers:Supplier;
+}

@@ -14,7 +14,6 @@ model orders {
   id                  Int                @id @default(autoincrement())
   created_at          DateTime           @default(now()) @db.Timestamptz(6)
   order_number        String             @default("")
-  processing          Boolean            @default(false)
   topic_name          String             @default("")
   order_status        String             @default("UNREAD")
   deleted_at          DateTime?          @db.Timestamp(6)
@@ -27,7 +26,6 @@ model orders {
 model order_details {
   id               Int                @id @default(autoincrement())
   created_at       DateTime           @default(now()) @db.Timestamptz(6)
-  order_history_id Int
   product_number   String             @default("")
   product_name     String             @default("")
   color            String             @default("")
@@ -35,10 +33,11 @@ model order_details {
   quantity         Int                @default(0)
   comment          String             @default("")
   order_quantity   Int                @default(0)
-  supplier_id      Int
   processing       Boolean            @default(false)
-  orders  orders    @relation(fields: [order_history_id], references: [id], onDelete: Cascade)
-  suppliers        suppliers          @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
+  order_id         Int
+  orders  orders    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  supplier_id      Int
+  suppliers        suppliers          @relation(fields: [supplier_id], references: [id], onDelete: NoAction)
   shipping_details shipping_details[]
 }
 

@@ -6,68 +6,35 @@ import { useRouter } from "next/navigation";
 // import OrderHistoryModal from "./order-history-modal";
 import { Order } from "@/types/index";
 import OrderHistoryModal from "./order-history-modal";
+import Link from "next/link";
+import { usePatchOrderCancel } from "@/hooks/usePatchOrderCancel";
+import { useMutationOrder } from "@/hooks/useMutationOrder";
 
 interface Props {
-    order: Order;
-  }
+  order: Order;
+}
 
 const OrderHistoryTableRow: FC<Props> = ({ order }) => {
-//   const currentUser = useStore((state) => state.currentUser);
   const router = useRouter();
+  const { mutate, isError: isCancelError } = usePatchOrderCancel(order);
+  const { usePatchOrderStatusSelect } = useMutationOrder();
 
-//   const handleChangeStatus = async (
-//     e: React.ChangeEvent<HTMLSelectElement>,
-//     id: number
-//   ) => {
-//     const { data } = await supabase
-//       .from("order_histories")
-//       .select("*")
-//       .eq("id", id)
-//       .single();
-//     if (data?.order_status === "CANCEL") {
-//       alert("処理が失敗しました。");
-//       router.refresh();
-//       return;
-//     }
-//     const { error } = await supabase
-//       .from("order_histories")
-//       .update({
-//         order_status: e.target.value,
-//       })
-//       .eq("id", id);
-//     if (error) {
-//       alert(error.message);
-//     }
-//     router.refresh();
-//   };
+  const handleChangeStatus = async (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    order: Order
+  ) => {
+    const { mutate } = usePatchOrderStatusSelect;
+    mutate({ ...order, order_status: e.target.value });
+  };
 
-//   const handleClickCancel = async (id: number) => {
-//     const { data } = await supabase
-//       .from("order_histories")
-//       .select("*")
-//       .eq("id", id)
-//       .single();
-//     if (data?.order_status !== "UNREAD") {
-//       alert("キャンセル処理が失敗しました。");
-//       router.refresh();
-//       return;
-//     }
-//     const result = confirm("キャンセルして宜しいでしょうか");
-//     if (!result) return;
+  const handleClickCancel = async () => {
+    mutate({ ...order, order_status: "CANCEL" });
+    router.refresh();
+  };
 
-//     const { error } = await supabase
-//       .from("order_histories")
-//       .update({
-//         deleted_at: new Date().toISOString(),
-//         order_status: "CANCEL",
-//       })
-//       .eq("id", id);
-//     if (error) {
-//       alert(error.message);
-//       console.log(error);
-//     }
-//     router.refresh();
-//   };
+  if (isCancelError) {
+    console.log(isCancelError);
+  }
 
   const getStatus = (status: string) => {
     switch (status) {
@@ -88,16 +55,18 @@ const OrderHistoryTableRow: FC<Props> = ({ order }) => {
 
   const StyleTableTd = "py-1 px-1 text-left border-b";
 
-  const inputStyle =
-    "m-0.5 !border !border-gray-300 bg-white text-gray-900 ring-4 ring-transparent placeholder:text-gray-500";
-
   return (
     <tr
       key={order.id}
       style={{ backgroundColor: order.order_status === "CANCEL" ? "#ddd" : "" }}
     >
-      <td className={`${StyleTableTd} pl-2`}>
-        <OrderHistoryModal order={order} />
+      <td className={`${StyleTableTd} w-[calc(140px)] pl-2`}>
+        <div className="flex gap-2">
+          <OrderHistoryModal order={order} />
+          <Link href={`/dashboard/order-histories/edit/${order.id}`}>
+            <Button size="sm">処理</Button>
+          </Link>
+        </div>
       </td>
       <td className={`${StyleTableTd}`}>{order.id}</td>
       <td className={`${StyleTableTd}`}>{order.order_number}</td>
@@ -111,28 +80,27 @@ const OrderHistoryTableRow: FC<Props> = ({ order }) => {
           <Button
             className="py-2 px-4"
             size="sm"
-            // onClick={() => handleClickCancel(order.id)}
+            onClick={handleClickCancel}
           >
             キャンセル
           </Button>
         )}
       </td>
-     
-        <td className={`${StyleTableTd}`}>
-          <select
-            style={{ padding: "0.5rem" }}
-            className={`${inputStyle} `}
-            defaultValue={order.order_status}
-            disabled={order.order_status === "CANCEL" ? true : false}
-            // onChange={(e) => handleChangeStatus(e, order.id)}
-          >
-            <option value="UNREAD">未読</option>
-            <option value="READ">既読</option>
-            <option value="ARRANGE">手配済み</option>
-            <option value="SHIPPING">出荷</option>
-          </select>
-        </td>
-    
+
+      <td className={`${StyleTableTd}`}>
+        <select
+          style={{ padding: "0.5rem" }}
+          value={order.order_status}
+          onChange={(e) => handleChangeStatus(e, order)}
+        >
+          <option value="UNREAD">未読</option>
+          <option value="READ">既読</option>
+          <option value="ARRANGE">手配済み</option>
+          <option value="SHIPPING">出荷</option>
+          <option value="CANCEL">キャンセル</option>
+        </select>
+      </td>
+
     </tr>
   );
 };

@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         ...orderDetail,
         id: bigintToIntHandler(Number(orderDetail.id)),
         order_history_id: bigintToIntHandler(
-          Number(orderDetail.order_history_id)
+          Number(orderDetail.order_id)
         ),
         supplier_id: bigintToIntHandler(Number(orderDetail.supplier_id)),
         suppliers: {
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       });
 
       const array = carts.contents.map((content) => ({
-        order_history_id: createOrder.id,
+        order_id: createOrder.id,
         supplier_id: Number(content.supplierId),
         product_number: content.productNumber.trim(),
         product_name: content.productName.trim(),

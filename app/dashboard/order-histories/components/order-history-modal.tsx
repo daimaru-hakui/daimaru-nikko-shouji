@@ -21,7 +21,7 @@ interface Props {
 const OrderHistoryModal: FC<Props> = ({ order }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
-  const { data } = useGetOrderById({ orderId: order.id });
+  const { data } = useGetOrderById({ id: order.id });
 
   const StyleTableTh =
     "border-b border-blue-gray-100 bg-blue-gray-50 px-2 py-1 text-left text-black";
@@ -41,7 +41,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
           <div className="flex gap-3 items-center">
             <div>発注詳細</div>
             <div>
-              <Link href={`/dashboard/order-histories/${order.id}`}>
+              <Link href={`/dashboard/order-histories/edit/${order.id}`}>
                 <Button size="sm" className="px-2 py-1">
                   伝票処理
                 </Button>

@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 const OrderConfirm: FC = () => {
   const carts = useStore((state) => state.carts);
   const shippingAddressId = carts.shippingAddress;
-  const { data: shippingAddress } = useGetShippingAddressById({ shippingAddressId });
+  const { data: shippingAddress } = useGetShippingAddressById({ id: shippingAddressId });
 
   const StyleTableTh = "border-b border-blue-gray-100 bg-gray-100 p-4";
   const StyleTableTd = "p-4 border-b border-blue-gray-50";

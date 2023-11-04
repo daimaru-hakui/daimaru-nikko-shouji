@@ -4,18 +4,7 @@ import { getServerSession } from 'next-auth';
 import { options } from '@/providers/options';
 
 const ShippingSchedules: NextPage = async () => {
-  //   const getShippingSchedules = async () => {
-  //     const { data, error } = await supabase
-  //       .from("order_details")
-  //       .select(`*,order_histories(*,shipping_addresses(*)),suppliers(*)`)
-  //       .gt("quantity", 0)
-  //       .order("id", { ascending: false });
-  //     if (error) {
-  //       alert(error.message);
-  //     }
-  //     if (!data) return;
-  //     return data;
-  //   };
+
 
   const getUserId = async () => {
     const session = await getServerSession(options);

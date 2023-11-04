@@ -4,13 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: number; }; }
 ) {
+  const id = Number(params.id);
   const prisma = new PrismaClient();
 
   const getOrder = async () => {
     const res = await prisma.orders.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         order_details: {
           include: {
@@ -24,7 +25,7 @@ export async function GET(
     const newOrderDetails = res?.order_details.map((orderDetail) => ({
       id: bigintToIntHandler(Number(orderDetail.id)),
       order_history_id: bigintToIntHandler(
-        Number(orderDetail.order_history_id)
+        Number(orderDetail.order_id)
       ),
       supplier_id: bigintToIntHandler(Number(orderDetail.supplier_id)),
       suppliers: {
@@ -55,5 +56,26 @@ export async function GET(
     return NextResponse.json(error, { status: 500 });
   } finally {
     prisma.$disconnect();
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  const { body } = await req.json();
+  const { id, order_status } = body;
+  const prisma = new PrismaClient();
+
+  try {
+    const data = await prisma.orders.update({
+      where: {
+        id
+      },
+      data: {
+        order_status
+      }
+    });
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(error, { status: 409 });
   }
 }

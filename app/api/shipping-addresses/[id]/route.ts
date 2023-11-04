@@ -1,5 +1,6 @@
 import { bigintToIntHandler } from "@/utils/functions";
 import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
@@ -17,5 +18,5 @@ export async function GET(
     ...res,
     id:bigintToIntHandler(Number(res.id))
   };
-  return Response.json({ data });
+  return NextResponse.json(data, { status: 200 });
 }
