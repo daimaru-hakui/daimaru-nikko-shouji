@@ -10,42 +10,24 @@ export async function GET(
   const prisma = new PrismaClient();
 
   const getOrder = async () => {
-    const res = await prisma.orders.findUnique({
+    const data = await prisma.orders.findUnique({
       where: { id },
       include: {
         order_details: {
+          orderBy: [
+            {
+              id: 'asc',
+            },
+          ],
           include: {
             suppliers: true,
           },
         },
         shipping_addresses: true,
       },
+       
     });
-
-    const newOrderDetails = res?.order_details.map((orderDetail) => ({
-      id: bigintToIntHandler(Number(orderDetail.id)),
-      order_history_id: bigintToIntHandler(
-        Number(orderDetail.order_id)
-      ),
-      supplier_id: bigintToIntHandler(Number(orderDetail.supplier_id)),
-      suppliers: {
-        ...orderDetail.suppliers,
-        id: bigintToIntHandler(Number(orderDetail.supplier_id)),
-      },
-    }));
-
-    const newShippingAddresses = {
-      ...res?.shipping_addresses,
-      id: bigintToIntHandler(Number(res?.shipping_address_id)),
-    };
-
-    return {
-      ...res,
-      id: bigintToIntHandler(Number(res?.id)),
-      shipping_address_id: bigintToIntHandler(Number(res?.shipping_address_id)),
-      order_details: newOrderDetails,
-      shipping_addresses: newShippingAddresses,
-    };
+    return data
   };
 
   try {

@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const prisma = new PrismaClient();
 
   const getOrders = async () => {
-    const res = await prisma.orders.findMany({
+    const data = await prisma.orders.findMany({
       include: {
         order_details: {
           include: {
@@ -20,35 +20,35 @@ export async function GET(req: NextRequest) {
         id: "desc",
       },
     });
-    const data = res.map((value) => {
-      const newOrderDetails = value.order_details.map((orderDetail) => ({
-        ...orderDetail,
-        id: bigintToIntHandler(Number(orderDetail.id)),
-        order_history_id: bigintToIntHandler(
-          Number(orderDetail.order_id)
-        ),
-        supplier_id: bigintToIntHandler(Number(orderDetail.supplier_id)),
-        suppliers: {
-          ...orderDetail.suppliers,
-          id: bigintToIntHandler(Number(orderDetail.supplier_id)),
-        },
-      }));
+    // const data = res.map((value) => {
+    //   const newOrderDetails = value.order_details.map((orderDetail) => ({
+    //     ...orderDetail,
+    //     id: bigintToIntHandler(Number(orderDetail.id)),
+    //     order_history_id: bigintToIntHandler(
+    //       Number(orderDetail.order_id)
+    //     ),
+    //     supplier_id: bigintToIntHandler(Number(orderDetail.supplier_id)),
+    //     suppliers: {
+    //       ...orderDetail.suppliers,
+    //       id: bigintToIntHandler(Number(orderDetail.supplier_id)),
+    //     },
+    //   }));
 
-      const newShippingAddresses = {
-        ...value.shipping_addresses,
-        id: bigintToIntHandler(Number(value.shipping_address_id)),
-      };
+    //   const newShippingAddresses = {
+    //     ...value.shipping_addresses,
+    //     id: bigintToIntHandler(Number(value.shipping_address_id)),
+    //   };
 
-      return {
-        ...value,
-        id: bigintToIntHandler(Number(value.id)),
-        shipping_address_id: bigintToIntHandler(
-          Number(value.shipping_address_id)
-        ),
-        order_details: [...newOrderDetails],
-        shipping_addresses: { ...newShippingAddresses, newShippingAddresses },
-      };
-    });
+    //   return {
+    //     ...value,
+    //     id: bigintToIntHandler(Number(value.id)),
+    //     shipping_address_id: bigintToIntHandler(
+    //       Number(value.shipping_address_id)
+    //     ),
+    //     order_details: [...newOrderDetails],
+    //     shipping_addresses: { ...newShippingAddresses, newShippingAddresses },
+    //   };
+    // });
 
     return data;
   };

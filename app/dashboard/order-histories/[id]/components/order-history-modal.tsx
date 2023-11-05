@@ -9,10 +9,10 @@ import {
 } from "@material-tailwind/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { format } from "date-fns";
-import Link from "next/link";
-import { Order } from "@/types/index";
 import OrderHistoryModalTableRow from "./order-history-modal-table-row";
-import { useGetOrderById } from "@/hooks/useGetOrderById";
+import { useStore } from "@/store/index";
+import { Order } from "@/types/index";
+import { zeroPadding } from "@/utils/functions";
 
 interface Props {
   order: Order;
@@ -21,10 +21,10 @@ interface Props {
 const OrderHistoryModal: FC<Props> = ({ order }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
-  const { data } = useGetOrderById({ id: order.id });
+  const checkedOrders = useStore((state) => state.checkedOrders);
 
   const StyleTableTh =
-    "border-b border-blue-gray-100 bg-blue-gray-50 px-2 py-1 text-left text-black";
+    "bg-blue-gray-50";
 
   return (
     <>
@@ -34,19 +34,12 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
         className="py-2 px-4"
         size="sm"
       >
-        詳細
+        発注処理
       </Button>
       <Dialog open={open} handler={handleOpen} size="lg">
         <DialogHeader className="flex justify-between">
           <div className="flex gap-3 items-center">
-            <div>発注詳細</div>
-            <div>
-              <Link href={`/dashboard/order-histories/edit/${order.id}`}>
-                <Button size="sm" className="px-2 py-1">
-                  伝票処理
-                </Button>
-              </Link>
-            </div>
+            <div>発注処理</div>
           </div>
           <button>
             <AiOutlineClose onClick={() => setOpen(false)} />
@@ -56,7 +49,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
           <div className="flex gap-6">
             <div>
               <div className="text-sm">受付番号</div>
-              <div className="ml-4 text-black">{order.id}</div>
+              <div className="ml-4 text-black">{zeroPadding(order.id)}</div>
             </div>
             <div>
               <div className="text-sm">貴社発注ナンバー</div>
@@ -96,7 +89,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
                 </tr>
               </thead>
               <tbody>
-                {order.order_details?.map((detail) => (
+                {checkedOrders?.map((detail) => (
                   <OrderHistoryModalTableRow key={detail.id} detail={detail} />
                 ))}
               </tbody>

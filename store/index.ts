@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Carts, Order, OrderInputs, Supplier } from "../types";
+import { Carts, Order, OrderDetail, OrderInputs, Supplier } from "../types";
 
 
 type Store = {
@@ -18,9 +18,9 @@ type Store = {
     value: boolean | string | number;
   }) => void;
   resetCarts: () => void;
-  checkedOrders: Order[];
-  setCheckedOrders: (checkedOrders: Order[]) => void;
-  removeCheckedOrders: (checkedOrder: Order) => void;
+  checkedOrders: OrderDetail[];
+  setCheckedOrders: (checkedOrders: OrderDetail[]) => void;
+  removeCheckedOrders: (checkedOrder: OrderDetail) => void;
   resetCheckedOrders: () => void;
   productNumbers: string[];
   productNames: string[];

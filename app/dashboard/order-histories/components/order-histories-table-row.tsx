@@ -5,16 +5,17 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 // import OrderHistoryModal from "./order-history-modal";
 import { Order } from "@/types/index";
-import OrderHistoryModal from "./order-history-modal";
+import OrderHistoryModal from "./order-histories-modal";
 import Link from "next/link";
 import { usePatchOrderCancel } from "@/hooks/usePatchOrderCancel";
 import { useMutationOrder } from "@/hooks/useMutationOrder";
+import { zeroPadding } from "@/utils/functions";
 
 interface Props {
   order: Order;
 }
 
-const OrderHistoryTableRow: FC<Props> = ({ order }) => {
+const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
   const router = useRouter();
   const { mutate, isError: isCancelError } = usePatchOrderCancel(order);
   const { usePatchOrderStatusSelect } = useMutationOrder();
@@ -63,12 +64,12 @@ const OrderHistoryTableRow: FC<Props> = ({ order }) => {
       <td className={`${StyleTableTd} w-[calc(140px)] pl-2`}>
         <div className="flex gap-2">
           <OrderHistoryModal order={order} />
-          <Link href={`/dashboard/order-histories/edit/${order.id}`}>
+          <Link href={`/dashboard/order-histories/${order.id}`}>
             <Button size="sm">処理</Button>
           </Link>
         </div>
       </td>
-      <td className={`${StyleTableTd}`}>{order.id}</td>
+      <td className={`${StyleTableTd}`}>{zeroPadding(order.id)}</td>
       <td className={`${StyleTableTd}`}>{order.order_number}</td>
       <td className={`${StyleTableTd}`}>
         {format(new Date(order.created_at), "yyyy年MM月dd日 HH時mm分")}
@@ -105,4 +106,4 @@ const OrderHistoryTableRow: FC<Props> = ({ order }) => {
   );
 };
 
-export default OrderHistoryTableRow;
+export default OrderHistoriesTableRow;

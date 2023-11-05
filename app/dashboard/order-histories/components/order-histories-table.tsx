@@ -1,13 +1,13 @@
 "use client";
 
 import React, { FC } from "react";
-import OrderHistoryTableRow from "./order-history-table-row";
+import OrderHistoriesTableRow from "./order-histories-table-row";
 import { useGetOrderAll } from "@/hooks/useGetOrderAll";
 
-const OrderHistoryTable: FC = () => {
+const OrderHistoriesTable: FC = () => {
   const { orders, isLoading } = useGetOrderAll();
 
-  const StyleTableTh = "py-2 px-1 text-left border-b";
+  const StyleTableTh = "";
 
   return (
     <div className="mt-12 w-full overflow-auto">
@@ -26,7 +26,7 @@ const OrderHistoryTable: FC = () => {
         </thead>
         <tbody>
           {orders?.map((order) => (
-            <OrderHistoryTableRow key={order.id} order={order} />
+            <OrderHistoriesTableRow key={order.id} order={order} />
           ))}
         </tbody>
       </table>
@@ -34,4 +34,4 @@ const OrderHistoryTable: FC = () => {
   );
 };
 
-export default OrderHistoryTable;
+export default OrderHistoriesTable;

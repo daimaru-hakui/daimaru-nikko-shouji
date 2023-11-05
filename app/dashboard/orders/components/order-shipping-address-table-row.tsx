@@ -13,7 +13,7 @@ const OrderShippingAddressTableRow: FC<Props> = ({ address, handleOpen }) => {
     setCartOthers({ name: "shippingAddress", value: id });
     handleOpen();
   };
-  const StyleTableTd = "p-4 text-left text-black border-b";
+  const StyleTableTd = "p-2";
   return (
     <tr>
       <td className={`${StyleTableTd}`}>

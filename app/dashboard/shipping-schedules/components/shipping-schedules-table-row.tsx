@@ -1,4 +1,5 @@
 import { Order, ShippingSchedule } from "@/types/index";
+import { zeroPadding } from "@/utils/functions";
 import { format } from "date-fns";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
@@ -10,7 +11,7 @@ interface Props {
   // isCheckedHandler: (id: number) => boolean;
 }
 
-const ShippingScheduleTableRow: FC<Props> = ({
+const ShippingSchedulesTableRow: FC<Props> = ({
   shippingSchedule,
   // isCheckedHandler,
 }) => {
@@ -43,20 +44,11 @@ const ShippingScheduleTableRow: FC<Props> = ({
             : "",
       }}
     >
-      {/* {currentUser?.role === "admin" && (
-        <td className={`${StyleTableTd}`}>
-          <Checkbox
-            checked={isChecked}
-            onChange={handleChecked}
-            crossOrigin={undefined}
-          />
-        </td>
-      )} */}
       <td className={`${StyleTableTd}`}>
         <Link
-          href={`/dashboard/shipping-schedules/${shippingSchedule.orders?.id}`}
+          href={`/dashboard/order-histories/${shippingSchedule.orders?.id}`}
         >
-          <span className="underline text-blue-500">{shippingSchedule.orders?.id}</span>
+          <span className="underline text-blue-500">{zeroPadding(shippingSchedule.orders?.id)}</span>
         </Link>
       </td>
       <td className={`${StyleTableTd}`}>
@@ -86,4 +78,4 @@ const ShippingScheduleTableRow: FC<Props> = ({
   );
 };
 
-export default ShippingScheduleTableRow;
+export default ShippingSchedulesTableRow;

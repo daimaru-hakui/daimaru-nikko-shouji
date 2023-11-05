@@ -5,12 +5,12 @@ interface Props {
   detail: OrderDetail;
 }
 
-const OrderHistoryModalTableRow: FC<Props> = ({ detail }) => {
-//   const reduceSum = (detail: OrderDetail) => {
-//     const array = detail.shipping_details.map((detail) => detail.quantity);
-//     const sum = array.reduce((prev, current) => prev + current, 0);
-//     return sum;
-//   };
+const OrderHistoriesModalTableRow: FC<Props> = ({ detail }) => {
+  // const reduceSum = (detail: OrderDetail) => {
+  //   const array = detail.shipping_details.map((detail) => detail.quantity);
+  //   const sum = array.reduce((prev, current) => prev + current, 0);
+  //   return sum;
+  // };
 
   const StyleTableTd = "px-2 py-2 text-left text-black border-b";
   return (
@@ -29,4 +29,4 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail }) => {
   );
 };
 
-export default OrderHistoryModalTableRow;
+export default OrderHistoriesModalTableRow;
