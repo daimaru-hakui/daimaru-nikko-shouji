@@ -34,7 +34,7 @@ const OrderContentTableRow: FC<Props> = ({
   const supplierId = watch(`contents.${idx}.supplierId`);
 
   const { suppliers } = useGetSupplierAll();
-  
+
   const supplier = suppliers?.find(
     (supplier) => supplier.id === Number(supplierId)
   );
@@ -81,7 +81,7 @@ const OrderContentTableRow: FC<Props> = ({
           defaultValue=""
           {...register(`contents.${idx}.supplierId`)}
         >
-          <option value="99">選択してください</option>
+          <option value="">選択してください</option>
           {suppliers?.map(({ id, name }) => (
             <option key={id} value={id}>
               {name}

@@ -14,7 +14,7 @@ const OrderShippingAddressModal = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
 
-  const { data: shippingAddresses } = useGetShippingAddressAll();
+  const { shippingAddresses } = useGetShippingAddressAll();
 
   const StyleTableTh =
     "border-b border-blue-gray-100 bg-blue-gray-50 p-4 text-left";

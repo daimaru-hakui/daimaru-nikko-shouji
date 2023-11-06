@@ -14,7 +14,7 @@ const OrderShipping: FC = () => {
     setCartOthers({ name, value: e.target.value });
   };
 
-  const { data: shippingAddress } = useGetShippingAddressById({ shippingAddressId });
+  const { shippingAddress } = useGetShippingAddressById({ id: shippingAddressId });
   console.log(shippingAddress);
 
   return (

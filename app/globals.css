@@ -35,4 +35,11 @@
   input , select{
     @apply border border-gray-300 bg-white text-gray-900 shadow-md shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 focus:!border-gray-900
   }
+  th {
+    @apply py-2 px-1 text-left border-b border-blue-gray-100 bg-gray-100 
+  }
+  td {
+    @apply py-0.5 px-1 text-left border-b
+
+  }
 }
