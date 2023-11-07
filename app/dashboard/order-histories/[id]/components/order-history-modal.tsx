@@ -45,6 +45,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
   const { register, handleSubmit, reset } = methods;
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { mutate } = usePatchShippingHistory;
+    console.log(data);
     mutate(data);
   };
 

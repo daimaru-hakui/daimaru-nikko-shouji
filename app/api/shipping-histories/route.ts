@@ -1,24 +1,24 @@
 import { ShippingInputs } from "@/types/index";
 import { PrismaClient } from "@prisma/client";
+import { format } from "date-fns";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const order: ShippingInputs = await req.json();
+  const { body } = await req.json();
   const prisma = new PrismaClient();
-
   try {
-    await prisma.$transaction(async () => {
+    await prisma.$transaction(async (prisma) => {
       const shippingHistory = await prisma.shipping_histories.create({
         data: {
-          shipping_date: order.shippingDate,
-          shipping_address_id: Number(order.shippingAddressId),
+          shipping_date: new Date(body.shippingDate).toISOString(),
+          shipping_address_id: Number(body.shippingAddressId),
         }
       });
-      const shippingDetails = order.contents.map((content) => {
+      const shippingDetails = body.contents.map((content: any) => {
         return {
           shipping_history_id: shippingHistory.id,
           order_detail_id: content.orderDetailId,
-          quantity: content.quantity
+          quantity: Number(content.quantity)
         };
       });
       await prisma.shipping_details.createMany({
@@ -27,16 +27,18 @@ export async function POST(req: NextRequest) {
       });
 
       let orderDetails: any = [];
-      order.contents.forEach(async (content) => {
+      body.contents.forEach(async (content: any) => {
         const orderDetail = await prisma.order_details.findUnique({
           where: {
             id: content.orderDetailId
           }
         });
         if (!orderDetail) throw new Error("データがありません。");
-        const quantity = (orderDetail?.quantity - Number(content.quantity)) >= 0 ?
-          (orderDetail?.quantity - Number(content.quantity)) : false;
-        if (!quantity) throw new Error("在庫数が足りません。");
+        console.log("quantity");
+        const result = (orderDetail?.quantity - Number(content.quantity)) >= 0 ?
+          true : false;
+        if (!result) throw new Error("在庫数が足りません。");
+        const quantity = (orderDetail?.quantity - Number(content.quantity));
         orderDetails.push({
           where: {
             id: content.orderDetailId

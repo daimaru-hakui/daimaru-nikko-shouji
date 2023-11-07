@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Order } from "../types";
+import { Order, ShippingInputs } from "../types";
 
-type Params = any;
+type Params =ShippingInputs;
 export const useMutationShippingHistory = () => {
   const queryClient = useQueryClient();
 
   const fetcher = async (params: Params) => {
-    let url = "/api/shipping-histories/";
-    const res = await axios.patch(url, {
+    let url = "/api/shipping-histories";
+    const res = await axios.post(url, {
       headers: {
         'Content-Type': 'application/json'
       },
