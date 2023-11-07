@@ -10,6 +10,7 @@ import Link from "next/link";
 import { usePatchOrderCancel } from "@/hooks/usePatchOrderCancel";
 import { useMutationOrder } from "@/hooks/useMutationOrder";
 import { zeroPadding } from "@/utils/functions";
+import { useStore } from "@/store/index";
 
 interface Props {
   order: Order;
@@ -19,6 +20,7 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
   const router = useRouter();
   const { mutate, isError: isCancelError } = usePatchOrderCancel(order);
   const { usePatchOrderStatusSelect } = useMutationOrder();
+  const currentUser = useStore((state) => state.currentUser);
 
   const handleChangeStatus = async (
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -64,9 +66,11 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
       <td className={`${StyleTableTd} w-[calc(140px)] pl-2`}>
         <div className="flex gap-2">
           <OrderHistoryModal order={order} />
-          <Link href={`/dashboard/order-histories/${order.id}`}>
-            <Button size="sm">処理</Button>
-          </Link>
+          {currentUser?.role === "ADMIN" && (
+            <Link href={`/dashboard/order-histories/${order.id}`}>
+              <Button size="sm">処理</Button>
+            </Link>
+          )}
         </div>
       </td>
       <td className={`${StyleTableTd}`}>{zeroPadding(order.id)}</td>
@@ -78,11 +82,7 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
       <td className={`${StyleTableTd}`}>{getStatus(order.order_status)}</td>
       <td className={`${StyleTableTd}`}>
         {order.order_status === "UNREAD" && (
-          <Button
-            className="py-2 px-4"
-            size="sm"
-            onClick={handleClickCancel}
-          >
+          <Button className="py-2 px-4" size="sm" onClick={handleClickCancel}>
             キャンセル
           </Button>
         )}
@@ -101,7 +101,6 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
           <option value="CANCEL">キャンセル</option>
         </select>
       </td>
-
     </tr>
   );
 };

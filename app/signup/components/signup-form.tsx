@@ -1,50 +1,63 @@
-'use client';
-import React, { FC } from 'react';
-import { Button, Input } from '@/lib/material-tailwind';
+"use client";
+import React, { FC } from "react";
+import { Button, Input } from "@/lib/material-tailwind";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase/client';
-import { signIn, signOut } from 'next-auth/react';
-import { DefaultSpinner } from '@/components/default-spinner';
+import {
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/firebase/client";
+import { DefaultSpinner } from "@/components/default-spinner";
+import axios from "axios";
 
 type Inputs = {
   email: string;
   password: string;
 };
 
-const LoginForm: FC = () => {
+const SignupForm: FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await signInHandler(data);
+    await signUpHandler(data);
   };
 
-  const signInHandler = async (data: Inputs) => {
+  const signUpHandler = async (data: Inputs) => {
     const { email, password } = data;
     try {
-      const userCredential =
-        await signInWithEmailAndPassword(auth, email, password);
-      const idToken = await userCredential.user.getIdToken();
-      console.log(idToken);
-      await signIn('credentials', {
-        idToken,
-        callbackUrl: '/dashboard'
-      });
-
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await userCreateHandler({ id: user.uid, email: user.email });
     } catch (error) {
-      console.log("error");
       console.error(error);
     }
+  };
+
+  const userCreateHandler = async (data: {
+    id: string;
+    email: string | null;
+  }) => {
+    const res = await axios.post("/api/signup", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+    const a = await res.data
+    console.log("res", a);
   };
 
   return (
     <>
       <DefaultSpinner />
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <div className='text-center'>Login</div>
+        <div className="text-center">SignUp</div>
         <div className="mt-6 w-full">
           <Input
             crossOrigin={undefined}
@@ -77,4 +90,4 @@ const LoginForm: FC = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

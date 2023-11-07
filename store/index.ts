@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import { Carts, Order, OrderDetail, OrderInputs, Supplier } from "../types";
+import { Carts, Order, OrderDetail, OrderInputs, Supplier, User } from "../types";
 
 
 type Store = {
-  currentUser: any | null;
-  setCurrentUser: (currentUser: any) => void;
+  currentUser: User | null;
+  setCurrentUser: (currentUser: User) => void;
   session: any | null;
   setSession: (session: any) => void;
   isSidebar: boolean;

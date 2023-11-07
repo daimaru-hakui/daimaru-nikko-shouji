@@ -1,11 +1,37 @@
+import { useGetSupplierAll } from "@/hooks/useGetSupplierAll";
 import { OrderDetail } from "@/types/index";
 import React, { FC } from "react";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
   detail: OrderDetail;
+  methods: UseFormReturn<Inputs, any, undefined>;
+  idx: number;
 }
 
-const OrderHistoryModalTableRow: FC<Props> = ({ detail }) => {
+type Inputs = {
+  shippingDate: string;
+  shippingAddressId: string;
+  contents: {
+    orderDetailId: number;
+    quantity: number;
+    remainingQuantity: number;
+  }[];
+};
+
+const OrderHistoryModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
+  const { register, setValue, watch } = methods;
+  const { suppliers } = useGetSupplierAll();
+
+  const orderDetailId = detail.id;
+  setValue(`contents.${idx}.orderDetailId`, orderDetailId);
+
+  const quantity =
+    detail.quantity - watch(`contents.${idx}.quantity`) >= 0
+      ? detail.quantity - watch(`contents.${idx}.quantity`)
+      : 0;
+  setValue(`contents.${idx}.remainingQuantity`, quantity);
+
   // const reduceSum = (detail: OrderDetail) => {
   //   const array = detail.shipping_details.map((detail) => detail.quantity);
   //   const sum = array.reduce((prev, current) => prev + current, 0);
@@ -13,6 +39,8 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail }) => {
   // };
 
   const StyleTableTd = "px-2 py-2 text-left text-black border-b";
+  const inputStyle = "m-0.5 p-2";
+
   return (
     <tr key={detail.id}>
       <td className={`${StyleTableTd}`}>{detail.suppliers?.name}</td>
@@ -22,8 +50,27 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail }) => {
       <td className={`${StyleTableTd} text-center`}>{detail.size}</td>
       <td className={`${StyleTableTd} text-center`}>{detail.order_quantity}</td>
       <td className={`${StyleTableTd} text-center`}>{detail.quantity}</td>
+      <td className={`${StyleTableTd} text-center`}>
+        <input
+          type="number"
+          className={`${inputStyle}`}
+          style={{ width: "80px" }}
+          defaultValue={detail.quantity}
+          {...register(`contents.${idx}.quantity`)}
+        />
+      </td>
+      <td className={`${StyleTableTd} text-center`}>
+        <input
+          type="number"
+          className={`${inputStyle}`}
+          style={{ width: "80px" }}
+          {...register(`contents.${idx}.remainingQuantity`)}
+        />
+      </td>
       {/* <td className={`${StyleTableTd} text-center`}>{reduceSum(detail)}</td> */}
-      <td className={`${StyleTableTd} text-center`}>{detail.processing && "あり"}</td>
+      <td className={`${StyleTableTd} text-center`}>
+        {detail.processing && "あり"}
+      </td>
       <td className={`${StyleTableTd}`}>{detail.comment}</td>
     </tr>
   );

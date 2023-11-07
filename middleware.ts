@@ -25,5 +25,5 @@ export default withAuth(
 
 
 export const config = {
-  matcher: ["/","/dashboard/:path*","/api/:path*"], // /auth/signin 等を指定しないようにした
+  matcher: ["/","/dashboard/:path*", "/((?!.*signup).*)/"], // /auth/signin 等を指定しないようにした
 };

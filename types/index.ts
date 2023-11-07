@@ -1,5 +1,13 @@
 import { suppliers } from "@prisma/client";
 
+export type User =  {
+  id: string;
+  email: string;
+  username: string | null;
+  role: "ADMIN" | "USER" | "MEMBER" | null
+  created_at: Date;
+} 
+
 export type OrderInputs = {
   contents: {
     supplierId: string;
@@ -83,7 +91,7 @@ export type OrderDetail = {
   quantity: number;
   comment: string;
   order_quantity: number;
-  supplier_id: bigint;
+  supplier_id: number;
   processing: boolean;
   suppliers:Supplier;
 };

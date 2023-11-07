@@ -12,7 +12,6 @@ export const options: NextAuthOptions =({
         if (idToken) {
           try {
             const decoded = await auth.verifyIdToken(idToken);
-            // console.log(decoded)
             const user = {
               id: decoded.uid,
               emailVerified: decoded.email_verified,
