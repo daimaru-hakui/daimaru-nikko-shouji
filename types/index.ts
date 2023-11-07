@@ -112,3 +112,13 @@ export type ShippingSchedule = {
   supplier_id: number; 
   suppliers:Supplier;
 }
+
+export type ShippingInputs = {
+  shippingDate: string;
+  shippingAddressId: string;
+  contents: {
+    orderDetailId: number;
+    quantity: number;
+    remainingQuantity: number;
+  }[];
+}
