@@ -18,6 +18,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useGetSupplierAll } from "@/hooks/useGetSupplierAll";
 import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
 import OrderHistoryModalTableHead from "./order-history-modal-table-head";
+import { useMutationShippingHistory } from "@/hooks/useMutationShippingHistory";
 
 interface Props {
   order: Order;
@@ -39,9 +40,14 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
   const currentDate = format(new Date(), "yyyy-MM-dd");
   const checkedOrders = useStore((state) => state.checkedOrders);
   const { shippingAddresses } = useGetShippingAddressAll();
+  const { usePatchShippingHistory } = useMutationShippingHistory();
   const methods = useForm<Inputs>();
   const { register, handleSubmit, reset } = methods;
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { mutate } = usePatchShippingHistory;
+    console.log(data);
+    mutate(data);
+  };
 
   const inputStyle = "m-0.5 p-2";
 
