@@ -2,8 +2,6 @@
 import { Checkbox } from "@material-tailwind/react";
 import React, { FC, useCallback, useEffect } from "react";
 import ShippingScheduleTableRow from "./shipping-schedules-table-row";
-// import { useStore } from "@/store";
-// import useAuth from "@/hooks/useAuth";
 import { useGetShippingScheduleAll } from "@/hooks/useGetShippingScheduleAll";
 
 

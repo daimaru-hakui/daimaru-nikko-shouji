@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const prisma = new PrismaClient();
+
   try {
     const data = await prisma.shipping_details.findMany({
       include: {
         shipping_histories: {
           include: {
-            shipping_addresses: true,
-            orders:true
+            orders: true,
           },
         },
         order_details: true,
@@ -20,6 +20,6 @@ export async function GET(req: NextRequest) {
     console.error(error);
     return NextResponse.json(error, { status: 500 });
   } finally {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   }
 }

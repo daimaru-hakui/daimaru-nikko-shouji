@@ -1,32 +1,34 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Order, ShippingInputs } from "../types";
+import { useStore } from "../store";
 
-type Params =ShippingInputs;
+type Params = ShippingInputs;
 export const useMutationShippingHistory = () => {
   const queryClient = useQueryClient();
+  const resetCheckedOrders = useStore((state) => state.resetCheckedOrders);
 
   const fetcher = async (params: Params) => {
     let url = "/api/shipping-histories";
     const res = await axios.post(url, {
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: params
+      body: params,
     });
     const data = await res.data;
     return data;
   };
 
-  const usePatchShippingHistory = useMutation({
+  const usePostShippingHistory = useMutation({
     mutationFn: (params: Params) => fetcher(params),
-   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['shipping-histories'] });
-  },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      resetCheckedOrders();
+    },
   });
 
   return {
-    usePatchShippingHistory
+    usePostShippingHistory,
   };
-
 };

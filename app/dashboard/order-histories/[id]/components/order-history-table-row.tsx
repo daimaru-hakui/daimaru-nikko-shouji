@@ -24,7 +24,6 @@ const OrderHistoryTableRow: FC<Props> = ({ orderDetail }) => {
     const result = findOrder ? true : false;
     setIsChecked(result);
   }, [checkedOrders, orderDetail.id]);
-  console.log(checkedOrders);
 
   const StyleTableTd = "";
   return (

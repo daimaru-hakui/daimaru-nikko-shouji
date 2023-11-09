@@ -1,5 +1,5 @@
 import { useGetSupplierAll } from "@/hooks/useGetSupplierAll";
-import { OrderDetail } from "@/types/index";
+import { OrderDetail, ShippingInputs } from "@/types/index";
 import React, { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -9,15 +9,7 @@ interface Props {
   idx: number;
 }
 
-type Inputs = {
-  shippingDate: string;
-  shippingAddressId: string;
-  contents: {
-    orderDetailId: number;
-    quantity: number;
-    remainingQuantity: number;
-  }[];
-};
+type Inputs =ShippingInputs;
 
 const OrderHistoryModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
   const { register, setValue, watch } = methods;
@@ -31,7 +23,6 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
       ? detail.quantity - watch(`contents.${idx}.quantity`)
       : 0;
   setValue(`contents.${idx}.remainingQuantity`, quantity);
-
   // const reduceSum = (detail: OrderDetail) => {
   //   const array = detail.shipping_details.map((detail) => detail.quantity);
   //   const sum = array.reduce((prev, current) => prev + current, 0);
@@ -56,7 +47,7 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           className={`${inputStyle}`}
           style={{ width: "80px" }}
           defaultValue={detail.quantity}
-          {...register(`contents.${idx}.quantity`)}
+          {...register(`contents.${idx}.quantity`, { min: 1 })}
         />
       </td>
       <td className={`${StyleTableTd} text-center`}>

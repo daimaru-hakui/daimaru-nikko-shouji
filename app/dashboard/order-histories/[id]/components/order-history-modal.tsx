@@ -12,10 +12,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import { format } from "date-fns";
 import OrderHistoryModalTableRow from "./order-history-modal-table-row";
 import { useStore } from "@/store/index";
-import { Order } from "@/types/index";
+import { Order, ShippingInputs } from "@/types/index";
 import { zeroPadding } from "@/utils/functions";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useGetSupplierAll } from "@/hooks/useGetSupplierAll";
 import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
 import OrderHistoryModalTableHead from "./order-history-modal-table-head";
 import { useMutationShippingHistory } from "@/hooks/useMutationShippingHistory";
@@ -24,15 +23,7 @@ interface Props {
   order: Order;
 }
 
-type Inputs = {
-  shippingDate: string;
-  shippingAddressId: string;
-  contents: {
-    orderDetailId: number;
-    quantity: number;
-    remainingQuantity: number;
-  }[];
-};
+type Inputs = ShippingInputs;
 
 const OrderHistoryModal: FC<Props> = ({ order }) => {
   const [open, setOpen] = React.useState(false);
@@ -40,11 +31,15 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
   const currentDate = format(new Date(), "yyyy-MM-dd");
   const checkedOrders = useStore((state) => state.checkedOrders);
   const { shippingAddresses } = useGetShippingAddressAll();
-  const { usePatchShippingHistory } = useMutationShippingHistory();
-  const methods = useForm<Inputs>();
-  const { register, handleSubmit, reset } = methods;
+  const { usePostShippingHistory } = useMutationShippingHistory();
+  const methods = useForm<Inputs>({
+    defaultValues:{
+      orderId:order.id
+    }
+  });
+  const { register, handleSubmit, reset} = methods;
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { mutate } = usePatchShippingHistory;
+    const { mutate } = usePostShippingHistory;
     console.log(data);
     mutate(data);
   };

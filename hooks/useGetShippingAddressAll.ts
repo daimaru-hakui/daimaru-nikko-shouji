@@ -10,7 +10,7 @@ const fetcher = async () => {
 };
 
 export const useGetShippingAddressAll = () => {
-  const QUERY_KEY = ['shipping-address'];
+  const QUERY_KEY = ['shipping-addresses'];
   const queryResult = useQuery<ShippingAddress[], Error>({ queryKey: QUERY_KEY, queryFn: () => fetcher() });
 
   return {

@@ -1,12 +1,12 @@
 import { suppliers } from "@prisma/client";
 
-export type User =  {
+export type User = {
   id: string;
   email: string;
   username: string | null;
-  role: "ADMIN" | "USER" | "MEMBER" | null
+  role: "ADMIN" | "USER" | "MEMBER" | null;
   created_at: Date;
-} 
+};
 
 export type OrderInputs = {
   contents: {
@@ -75,7 +75,7 @@ export type Order = {
   topic_name: string;
   order_details: OrderDetail[];
   shipping_address_id: number;
-  shipping_addresses: ShippingAddress
+  shipping_addresses: ShippingAddress;
   created_at: Date;
   deleted_at: Date | null;
 };
@@ -93,7 +93,7 @@ export type OrderDetail = {
   order_quantity: number;
   supplier_id: number;
   processing: boolean;
-  suppliers:Supplier;
+  suppliers: Supplier;
 };
 
 export type ShippingSchedule = {
@@ -108,17 +108,47 @@ export type ShippingSchedule = {
   order_quantity: number;
   processing: boolean;
   order_id: number;
-  orders:Order
-  supplier_id: number; 
-  suppliers:Supplier;
-}
+  orders: Order;
+  supplier_id: number;
+  suppliers: Supplier;
+};
 
 export type ShippingInputs = {
   shippingDate: string;
+  orderId: number;
   shippingAddressId: string;
   contents: {
     orderDetailId: number;
     quantity: number;
     remainingQuantity: number;
   }[];
-}
+};
+
+export type ShippingHistory = {
+  id: number;
+  shipping_date: Date;
+  shipping_address_id: number;
+  shipping_addresses: ShippingAddress;
+  shipping_details: ShippingDetail[];
+  order_id: number;
+  orders: Order;
+  created_at: Date;
+};
+
+export type ShippingDetail = {
+  id: number;
+  order_detail_id: number;
+  shipping_date: Date;
+  quantity: number;
+  created_at: Date;
+};
+
+export type ShippingDetailHistory = {
+  id: number;
+  order_detail_id: number;
+  order_details: OrderDetail;
+  shipping_history_id: number;
+  shipping_histories: ShippingHistory;
+  quantity: number;
+  created_at: Date;
+};
