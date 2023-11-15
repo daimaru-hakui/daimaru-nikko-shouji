@@ -5,7 +5,7 @@ import { useGetShippingHistoryAll } from "@/hooks/useGetShippingHistoryAll";
 
 const ShippingHistoriesTable: FC = () => {
   const { shippingHistories } = useGetShippingHistoryAll();
-  const StyleTableTh = "py-0.5 px-1 text-left border-b";
+  const StyleTableTh = "text-left border-b";
   return (
     <div className="mt-12 w-full overflow-auto">
       <table className="w-full max-w-[calc(1200px)] min-w-[calc(1200px)]">

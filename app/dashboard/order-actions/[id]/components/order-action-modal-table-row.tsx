@@ -47,7 +47,7 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           className={`${inputStyle}`}
           style={{ width: "80px" }}
           defaultValue={detail.quantity}
-          {...register(`contents.${idx}.quantity`, { min: 1 })}
+          {...register(`contents.${idx}.quantity`, { min: 1,max: detail.quantity})}
         />
       </td>
       <td className={`${StyleTableTd} text-center`}>

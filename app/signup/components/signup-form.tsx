@@ -26,6 +26,7 @@ const SignupForm: FC = () => {
 
   const signUpHandler = async (data: Inputs) => {
     const { email, password } = data;
+    return
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,

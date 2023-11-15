@@ -67,7 +67,7 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
         <div className="flex gap-2">
           <OrderHistoryModal order={order} />
           {currentUser?.role === "ADMIN" && (
-            <Link href={`/dashboard/order-histories/${order.id}`}>
+            <Link href={`/dashboard/order-actions/${order.id}`}>
               <Button size="sm">処理</Button>
             </Link>
           )}

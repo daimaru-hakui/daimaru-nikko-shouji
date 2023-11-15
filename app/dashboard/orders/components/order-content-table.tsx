@@ -1,14 +1,12 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import OrderContentTableRow from "./order-content-table-row";
 import {
   UseFormReturn,
   FieldArrayWithId,
   UseFieldArrayRemove,
 } from "react-hook-form";
-import axios from "axios";
-import { suppliers } from "@prisma/client";
-import { OrderInputs, Supplier } from "@/types/index";
+import { OrderInputs } from "@/types/index";
 
 interface Props {
   methods: UseFormReturn<OrderInputs, any, undefined>;

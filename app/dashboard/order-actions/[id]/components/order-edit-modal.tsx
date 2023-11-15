@@ -6,42 +6,66 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-  Input,
 } from "@material-tailwind/react";
 import { AiOutlineClose } from "react-icons/ai";
 import { format } from "date-fns";
-import OrderHistoryModalTableRow from "./order-history-modal-table-row";
+import OrderEditModalTableRow from "./order-edit-modal-table-row";
 import { useStore } from "@/store/index";
-import { Order, ShippingInputs } from "@/types/index";
+import { Order } from "@/types/index";
 import { zeroPadding } from "@/utils/functions";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
-import OrderHistoryModalTableHead from "./order-history-modal-table-head";
+import OrderEditModalTableHead from "./order-edit-modal-table-head";
 import { useMutationShippingHistory } from "@/hooks/useMutationShippingHistory";
 
 interface Props {
   order: Order;
 }
 
-type Inputs = ShippingInputs;
+type Inputs = {
+  shippingAddressId: string;
+  contents: {
+    supplierId: number;
+    productNumber: string;
+    productName: string;
+    color: string;
+    size: string;
+    orderQuantity: number;
+    price: number;
+    quantity: number;
+    remainingQuantity: number;
+    processing: boolean;
+    comment: string;
+  }[];
+};
 
-const OrderHistoryModal: FC<Props> = ({ order }) => {
+const OrderEditModal: FC<Props> = ({ order }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
   const currentDate = format(new Date(), "yyyy-MM-dd");
   const checkedOrders = useStore((state) => state.checkedOrders);
   const { shippingAddresses } = useGetShippingAddressAll();
   const { usePostShippingHistory } = useMutationShippingHistory();
+  const contents = order.order_details.map((detail) => ({
+    supplierId: detail.supplier_id,
+    productNumber: detail.product_number,
+    productName: detail.product_name,
+    color: detail.color,
+    orderQuantity: detail.order_quantity,
+    price: detail.price,
+    quantity: detail.quantity,
+    processing: detail.processing,
+    comment: detail.comment,
+  }));
   const methods = useForm<Inputs>({
-    defaultValues:{
-      orderId:order.id
-    }
+    defaultValues: {
+      contents: [...contents],
+    },
   });
-  const { register, handleSubmit, reset} = methods;
+  const { register, handleSubmit, reset } = methods;
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { mutate } = usePostShippingHistory;
     console.log(data);
-    mutate(data);
   };
 
   const inputStyle = "m-0.5 p-2";
@@ -54,46 +78,41 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
         className="py-2 px-4"
         size="sm"
       >
-        発注処理
+        編集
       </Button>
-      <Dialog open={open} handler={handleOpen} size="lg">
+      <Dialog
+        open={open}
+        handler={() => {
+          handleOpen();
+          reset();
+        }}
+        size="xl"
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className="flex justify-between">
             <div className="flex gap-3 items-center">
-              <div>発注処理</div>
+              <div>編集</div>
             </div>
             <button>
               <AiOutlineClose onClick={() => setOpen(false)} />
             </button>
           </DialogHeader>
-          <DialogBody className="pt-0 ">
+          <DialogBody className="pt-0">
             <div className="flex gap-6">
               <div>
                 <div className="text-sm">受付番号</div>
-                <div className="ml-4 text-black">{zeroPadding(order.id)}</div>
+                <div className="text-black">{zeroPadding(order.id)}</div>
               </div>
               <div>
                 <div className="text-sm">貴社発注ナンバー</div>
-                <div className="ml-4 text-black">{order.order_number}</div>
+                <div className="text-black">{order.order_number}</div>
               </div>
             </div>
-            <div className="mt-6 flex gap-6">
-              <div>
-                <div className="text-sm">出荷日</div>
-                <div className="ml-4 text-black">
-                  <input
-                    type="date"
-                    defaultValue={currentDate}
-                    className={`${inputStyle}`}
-                    {...register("shippingDate")}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="mt-6 flex gap-6">
+
+            <div className="mt-3 flex gap-6">
               <div>
                 <div className="text-sm">送り先</div>
-                <div className="ml-4 text-black">
+                <div className="text-black">
                   <select
                     className={`${inputStyle}`}
                     defaultValue={order.shipping_address_id}
@@ -109,14 +128,15 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
                 </div>
               </div>
             </div>
-            <div className="mt-6 h-[calc(100%)] overflow-auto">
+
+            <div className="mt-6 min-h-[calc(40vh)] overflow-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <OrderHistoryModalTableHead />
+                  <OrderEditModalTableHead />
                 </thead>
                 <tbody>
                   {checkedOrders?.map((detail, idx) => (
-                    <OrderHistoryModalTableRow
+                    <OrderEditModalTableRow
                       key={detail.id}
                       detail={detail}
                       methods={methods}
@@ -138,7 +158,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
               >
                 <span>閉じる</span>
               </Button>
-              <Button type="submit">確定</Button>
+              <Button type="submit">更新</Button>
             </div>
           </DialogFooter>
         </form>
@@ -147,4 +167,4 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
   );
 };
 
-export default OrderHistoryModal;
+export default OrderEditModal;

@@ -1,7 +1,7 @@
-import { useStore } from '@/store/index';
-import { OrderDetail } from '@/types/index';
-import { Checkbox } from '@material-tailwind/react';
-import React, { FC, useEffect, useState } from 'react';
+import { useStore } from "@/store/index";
+import { OrderDetail } from "@/types/index";
+import { Checkbox } from "@material-tailwind/react";
+import React, { FC, useEffect, useState } from "react";
 
 interface Props {
   orderDetail: OrderDetail;
@@ -20,7 +20,9 @@ const OrderHistoryTableRow: FC<Props> = ({ orderDetail }) => {
   };
 
   useEffect(() => {
-    const findOrder = checkedOrders.find((order) => (order.id === orderDetail.id));
+    const findOrder = checkedOrders.find(
+      (order) => order.id === orderDetail.id
+    );
     const result = findOrder ? true : false;
     setIsChecked(result);
   }, [checkedOrders, orderDetail.id]);
@@ -35,24 +37,25 @@ const OrderHistoryTableRow: FC<Props> = ({ orderDetail }) => {
           crossOrigin={undefined}
         />
       </td>
+      <td className={`${StyleTableTd}`}>{orderDetail.suppliers.name}</td>
       <td className={`${StyleTableTd}`}>
-        {orderDetail.suppliers.name}
+        <div className="flex gap-6">
+          <div>{orderDetail.product_number}</div>
+          <div>{orderDetail.color}</div>
+        </div>
+        <div>{orderDetail.product_name}</div>
       </td>
-      <td className={`${StyleTableTd}`}>
-        {orderDetail.product_number}
+      <td className={`${StyleTableTd} w-25`}>
+        <div>{orderDetail?.size}</div>
+        <div className="text-center">{orderDetail?.order_quantity}</div>
       </td>
-      <td className={`${StyleTableTd}`}>{orderDetail.product_name}</td>
-      <td className={`${StyleTableTd}`}>{orderDetail.color}</td>
-      <td className={`${StyleTableTd}`}>{orderDetail?.size}</td>
-      <td className={`${StyleTableTd} text-center`}>{orderDetail?.order_quantity}</td>
-      <td className={`${StyleTableTd} text-center`}>
-        {orderDetail?.quantity}
-      </td>
+      <td>出荷済み</td>
+      <td className={`${StyleTableTd} text-center`}>{orderDetail?.quantity}</td>
       <td className={`${StyleTableTd} text-center`}>
         {orderDetail?.order_quantity - orderDetail?.quantity}
       </td>
       <td className={`${StyleTableTd}`}>
-        {orderDetail?.processing ? "二次加工" : ""}
+        {orderDetail?.processing ? "あり" : ""}
       </td>
       <td className={`${StyleTableTd}`}>{orderDetail?.comment}</td>
     </tr>

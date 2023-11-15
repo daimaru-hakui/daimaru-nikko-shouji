@@ -42,7 +42,7 @@ const OrderHistoriesModal: FC<Props> = ({ order }) => {
           <div className="flex gap-3 items-center">
             <div>発注詳細</div>
             <div>
-              <Link href={`/dashboard/order-histories/${order.id}`}>
+              <Link href={`/dashboard/order-actions/${order.id}`}>
                 <Button size="sm" className="px-2 py-1">
                   伝票処理
                 </Button>

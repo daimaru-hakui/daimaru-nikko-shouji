@@ -25,7 +25,9 @@ export const usePatchOrderCancel = (params: Params) => {
               ...params
             }
           } else {
-            return order
+            return {
+              ...order
+            }
           }
         })
         return newOrders
@@ -38,6 +40,5 @@ export const usePatchOrderCancel = (params: Params) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
-    retry: 0
   });
 };

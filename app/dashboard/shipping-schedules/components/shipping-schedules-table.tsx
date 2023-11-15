@@ -1,6 +1,6 @@
 "use client";
 import { Checkbox } from "@material-tailwind/react";
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC } from "react";
 import ShippingScheduleTableRow from "./shipping-schedules-table-row";
 import { useGetShippingScheduleAll } from "@/hooks/useGetShippingScheduleAll";
 
@@ -13,7 +13,7 @@ const ShippingSchedulesTable: FC<Props> = ({ userId }) => {
   const { shippingSchedules } = useGetShippingScheduleAll();
   console.log(shippingSchedules);
 
-  const StyleTableTh = "py-0.5 px-1 text-left border-b";
+  const StyleTableTh = "px-1 text-left border-b";
   return (
     <div className="mt-12 w-full overflow-auto">
       <table className="w-full max-w-[calc(1500px)] min-w-[calc(1500px)]">

@@ -31,7 +31,9 @@ export const useMutationOrder = () => {
               ...params
             }
           } else {
-            return order
+            return {
+              ...order
+            }
           }
         })
         return newOrders

@@ -28,15 +28,14 @@ const LoginForm: FC = () => {
       const userCredential =
         await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCredential.user.getIdToken();
-      console.log(idToken);
       await signIn('credentials', {
         idToken,
         callbackUrl: '/dashboard'
       });
 
     } catch (error) {
-      console.log("error");
       console.error(error);
+      alert("ログインに失敗しました。")
     }
   };
 

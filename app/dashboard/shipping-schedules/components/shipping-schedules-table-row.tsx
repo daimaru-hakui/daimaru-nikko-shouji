@@ -46,7 +46,7 @@ const ShippingSchedulesTableRow: FC<Props> = ({
     >
       <td className={`${StyleTableTd}`}>
         <Link
-          href={`/dashboard/order-histories/${shippingSchedule.orders?.id}`}
+          href={`/dashboard/order-actions/${shippingSchedule.orders?.id}`}
         >
           <span className="underline text-blue-500">{zeroPadding(shippingSchedule.orders?.id)}</span>
         </Link>

@@ -91,6 +91,7 @@ export type OrderDetail = {
   quantity: number;
   comment: string;
   order_quantity: number;
+  price:number;
   supplier_id: number;
   processing: boolean;
   suppliers: Supplier;

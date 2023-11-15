@@ -6,17 +6,29 @@ export async function GET() {
   const prisma = new PrismaClient();
   try {
     const data = await prisma.order_details.findMany({
-      orderBy: [{
-        created_at: "desc",
-      }],
+      where: {
+        quantity: {
+          gt: 0,
+        },
+        orders: {
+          order_status: {
+            "notIn": ["CANCEL"],
+          },
+        },
+      },
+      orderBy: [
+        {
+          created_at: "desc",
+        },
+      ],
       include: {
         orders: {
           include: {
             shipping_addresses: true,
-          }
+          },
         },
-        suppliers: true
-      }
+        suppliers: true,
+      },
     });
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
