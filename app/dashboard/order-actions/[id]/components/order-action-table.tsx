@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import OrderHistoryTableRow from "./order-action-table-row";
 import { Checkbox } from "@material-tailwind/react";
 import { useStore } from "@/store/index";
-import OrderEditModal from "./order-edit-modal";
 
 const OrderHistoryTable = () => {
   const params = useParams();
