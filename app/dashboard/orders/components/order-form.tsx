@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { Button } from "@material-tailwind/react";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -11,11 +11,12 @@ import OrderCompletion from "./order-completion";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/store/index";
 import axios from "axios";
-import { Carts, OrderInputs } from "@/types/index";
+import { Carts, CreateOrder, OrderInputs } from "@/types/index";
 
 const OrderForm: FC = () => {
   const router = useRouter();
   const carts = useStore((state) => state.carts);
+  const [createOrderId, setCreateOrderId] = useState<number | null>(null);
   const resetCarts = useStore((state) => state.resetCarts);
   const setCartContents = useStore((state) => state.setCartContents);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -75,7 +76,9 @@ const OrderForm: FC = () => {
   };
 
   const onClickRegisterHandler = async (carts: Carts) => {
-    await axios.post('/api/orders', carts);
+    const res = await axios.post("/api/orders", carts);
+    const { id } = await res.data;
+    setCreateOrderId(id);
     handleNext();
     resetCarts();
     reset();
@@ -118,7 +121,7 @@ const OrderForm: FC = () => {
         )}
         {activeStep === 1 && <OrderShipping />}
         {activeStep === 2 && <OrderConfirm />}
-        {activeStep === 3 && <OrderCompletion />}
+        {activeStep === 3 && <OrderCompletion createOrderId={createOrderId} />}
 
         {activeStep === 0 && (
           <div className="w-full mt-3 flex justify-center gap-3">
@@ -139,8 +142,8 @@ const OrderForm: FC = () => {
             {activeStep === 0
               ? "クリア"
               : activeStep === 1 || activeStep === 2
-                ? "戻る"
-                : "発注画面"}
+              ? "戻る"
+              : "発注画面"}
           </Button>
 
           {activeStep === 0 && (

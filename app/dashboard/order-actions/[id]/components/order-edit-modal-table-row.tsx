@@ -1,5 +1,5 @@
 import { useGetSupplierAll } from "@/hooks/useGetSupplierAll";
-import { OrderDetail, ShippingInputs } from "@/types/index";
+import { OrderContent, OrderDetail, ShippingInputs } from "@/types/index";
 import { Input, Switch } from "@material-tailwind/react";
 import React, { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -12,19 +12,7 @@ interface Props {
 
 type Inputs = {
   shippingAddressId: string;
-  contents: {
-    supplierId: number;
-    productNumber: string;
-    productName: string;
-    color: string;
-    size: string;
-    orderQuantity: number;
-    price: number;
-    quantity: number;
-    remainingQuantity: number;
-    processing: boolean;
-    comment: string;
-  }[];
+  contents: OrderContent[];
 };
 
 const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
@@ -96,10 +84,9 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           type="number"
           className={`${inputStyle}`}
           style={{ width: "80px" }}
-          defaultValue={detail.quantity}
-          {...register(`contents.${idx}.quantity`, {
-            min: 1,
-            max: detail.quantity,
+          defaultValue={detail.order_quantity}
+          {...register(`contents.${idx}.orderQuantity`, {
+            min: 0,
           })}
         />
       </td>
@@ -108,7 +95,19 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           type="number"
           className={`${inputStyle}`}
           style={{ width: "80px" }}
-          {...register(`contents.${idx}.remainingQuantity`)}
+          defaultValue={detail.quantity}
+          {...register(`contents.${idx}.quantity`, {
+            min: 1,
+           
+          })}
+        />
+      </td>
+      <td className={`${StyleTableTd} text-center`}>
+        <input
+          type="number"
+          className={`${inputStyle}`}
+          style={{ width: "80px" }}
+          {...register(`contents.${idx}.price`)}
         />
       </td>
       {/* <td className={`${StyleTableTd} text-center`}>{reduceSum(detail)}</td> */}

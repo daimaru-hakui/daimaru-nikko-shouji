@@ -8,9 +8,9 @@ export default function QueryProvider({ children }: any) {
     () =>
       new QueryClient({
         defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000,
-          },
+          // queries: {
+          //   staleTime: 60 * 1000,
+          // },
         },
       }),
   );

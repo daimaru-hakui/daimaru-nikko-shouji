@@ -80,6 +80,16 @@ export type Order = {
   deleted_at: Date | null;
 };
 
+export type CreateOrder = {
+  id: number;
+  created_at: Date;
+  order_number: string;
+  topic_name: string;
+  order_status: string;
+  deleted_at: Date | null;
+  shipping_address_id: number;
+};
+
 export type OrderDetail = {
   id: number;
   created_at: Date;
@@ -95,6 +105,21 @@ export type OrderDetail = {
   supplier_id: number;
   processing: boolean;
   suppliers: Supplier;
+};
+
+export type OrderContent = {
+  id:number,
+  supplierId: number;
+  productNumber: string;
+  productName: string;
+  color: string;
+  size: string;
+  orderQuantity: number;
+  price: number;
+  quantity: number;
+  remainingQuantity: number;
+  processing: boolean;
+  comment: string;
 };
 
 export type ShippingSchedule = {

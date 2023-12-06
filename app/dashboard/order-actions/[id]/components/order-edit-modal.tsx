@@ -11,12 +11,13 @@ import { AiOutlineClose } from "react-icons/ai";
 import { format } from "date-fns";
 import OrderEditModalTableRow from "./order-edit-modal-table-row";
 import { useStore } from "@/store/index";
-import { Order } from "@/types/index";
+import { Order, OrderContent } from "@/types/index";
 import { zeroPadding } from "@/utils/functions";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
 import OrderEditModalTableHead from "./order-edit-modal-table-head";
 import { useMutationShippingHistory } from "@/hooks/useMutationShippingHistory";
+import { useMutationOrderDetail } from "@/hooks/useMutationOrderDetail";
 
 interface Props {
   order: Order;
@@ -24,19 +25,7 @@ interface Props {
 
 type Inputs = {
   shippingAddressId: string;
-  contents: {
-    supplierId: number;
-    productNumber: string;
-    productName: string;
-    color: string;
-    size: string;
-    orderQuantity: number;
-    price: number;
-    quantity: number;
-    remainingQuantity: number;
-    processing: boolean;
-    comment: string;
-  }[];
+  contents: OrderContent[];
 };
 
 const OrderEditModal: FC<Props> = ({ order }) => {
@@ -44,13 +33,16 @@ const OrderEditModal: FC<Props> = ({ order }) => {
   const handleOpen = () => setOpen(!open);
   const currentDate = format(new Date(), "yyyy-MM-dd");
   const checkedOrders = useStore((state) => state.checkedOrders);
+  const resetCheckedOrders = useStore((state) => state.resetCheckedOrders);
   const { shippingAddresses } = useGetShippingAddressAll();
-  const { usePostShippingHistory } = useMutationShippingHistory();
+  const { usePatchOrderDetail } = useMutationOrderDetail();
   const contents = order.order_details.map((detail) => ({
+    id: detail.id,
     supplierId: detail.supplier_id,
     productNumber: detail.product_number,
     productName: detail.product_name,
     color: detail.color,
+    size: detail.size,
     orderQuantity: detail.order_quantity,
     price: detail.price,
     quantity: detail.quantity,
@@ -64,8 +56,9 @@ const OrderEditModal: FC<Props> = ({ order }) => {
   });
   const { register, handleSubmit, reset } = methods;
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { mutate } = usePostShippingHistory;
-    console.log(data);
+    const { mutate } = usePatchOrderDetail;
+    mutate(data?.contents);
+    resetCheckedOrders();
   };
 
   const inputStyle = "m-0.5 p-2";

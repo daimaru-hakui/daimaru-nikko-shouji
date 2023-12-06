@@ -1,10 +1,11 @@
+import { Order } from "@/types/index";
 import { bigintToIntHandler } from "@/utils/functions";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: number; }; }
+  { params }: { params: { id: number } }
 ) {
   const id = Number(params.id);
   const prisma = new PrismaClient();
@@ -16,7 +17,7 @@ export async function GET(
         order_details: {
           orderBy: [
             {
-              id: 'asc',
+              id: "asc",
             },
           ],
           include: {
@@ -25,9 +26,8 @@ export async function GET(
         },
         shipping_addresses: true,
       },
-       
     });
-    return data
+    return data;
   };
 
   try {
@@ -42,22 +42,41 @@ export async function GET(
 }
 
 export async function PATCH(req: NextRequest) {
-  const { body } = await req.json();
+  const { body }: { body: Order } = await req.json();
   const { id, order_status } = body;
   const prisma = new PrismaClient();
 
-  try {
-    const data = await prisma.orders.update({
-      where: {
-        id
-      },
-      data: {
-        order_status
+  return await prisma
+    .$transaction(async (prisma) => {
+      const resOrder = await prisma.orders.findUnique({
+        where: { id },
+      });
+
+      if (
+        resOrder?.order_status !== "CANCEL" &&
+        resOrder?.order_status !== "UNREAD" &&
+        order_status === "CANCEL"
+      ) {
+        return NextResponse.json("キャンセルできません。", { status: 409 });
       }
+
+      if (resOrder?.order_status === "CANCEL") {
+        return NextResponse.json("キャンセル済みです。", { status: 409 });
+      }
+
+      const data = await prisma.orders.update({
+        where: {
+          id,
+        },
+        data: {
+          order_status,
+        },
+      });
+
+      return NextResponse.json(data, { status: 200 });
+    })
+    .catch((error) => {
+      console.error(error);
+      return NextResponse.json(error, { status: 409 });
     });
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(error, { status: 409 });
-  }
 }

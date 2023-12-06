@@ -1,5 +1,4 @@
-import { Carts } from "@/types/index";
-import { bigintToIntHandler } from "@/utils/functions";
+import { Carts, CreateOrder } from "@/types/index";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,13 +33,13 @@ export async function GET(req: NextRequest) {
   }
 }
 
+let createOrder: CreateOrder;
 export async function POST(req: NextRequest) {
   const carts: Carts = await req.json();
   const prisma = new PrismaClient();
-
   try {
-    const newOrder = await prisma.$transaction(async (prisma) => {
-      const createOrder = await prisma.orders.create({
+    await prisma.$transaction(async (prisma) => {
+      createOrder = await prisma.orders.create({
         data: {
           shipping_address_id: carts.shippingAddress,
           order_number: carts.orderNumber,
@@ -65,7 +64,7 @@ export async function POST(req: NextRequest) {
         data: [...array],
       });
     });
-    return NextResponse.json(newOrder, { status: 200 });
+    return NextResponse.json(createOrder, { status: 200 });
   } catch (error) {
     return NextResponse.json({ status: 400 });
   } finally {

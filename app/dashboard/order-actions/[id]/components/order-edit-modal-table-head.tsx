@@ -10,6 +10,7 @@ const OrderEditModalTableHead = () => {
       <th className={`${StyleTableTh}`}>カラー</th>
       <th className={`${StyleTableTh} text-center`}>サイズ</th>
       <th className={`${StyleTableTh} text-center`}>受注数</th>
+      <th className={`${StyleTableTh} text-center`}>残数</th>
       <th className={`${StyleTableTh} text-center`}>価格</th>
       <th className={`${StyleTableTh} text-center`}>二次加工</th>
       <th className={`${StyleTableTh}`}>コメント</th>

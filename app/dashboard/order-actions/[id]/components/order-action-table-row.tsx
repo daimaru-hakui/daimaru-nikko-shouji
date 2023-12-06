@@ -49,7 +49,6 @@ const OrderHistoryTableRow: FC<Props> = ({ orderDetail }) => {
         <div>{orderDetail?.size}</div>
         <div className="text-center">{orderDetail?.order_quantity}</div>
       </td>
-      <td>出荷済み</td>
       <td className={`${StyleTableTd} text-center`}>{orderDetail?.quantity}</td>
       <td className={`${StyleTableTd} text-center`}>
         {orderDetail?.order_quantity - orderDetail?.quantity}
@@ -58,6 +57,7 @@ const OrderHistoryTableRow: FC<Props> = ({ orderDetail }) => {
         {orderDetail?.processing ? "あり" : ""}
       </td>
       <td className={`${StyleTableTd}`}>{orderDetail?.comment}</td>
+      <td>出荷済み</td>
     </tr>
   );
 };

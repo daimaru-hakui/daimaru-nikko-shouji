@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { Order } from "@/types/index";
 import OrderHistoryModal from "./order-histories-modal";
 import Link from "next/link";
-import { usePatchOrderCancel } from "@/hooks/usePatchOrderCancel";
 import { useMutationOrder } from "@/hooks/useMutationOrder";
 import { zeroPadding } from "@/utils/functions";
 import { useStore } from "@/store/index";
@@ -17,8 +16,6 @@ interface Props {
 }
 
 const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
-  const router = useRouter();
-  const { mutate, isError: isCancelError } = usePatchOrderCancel(order);
   const { usePatchOrderStatusSelect } = useMutationOrder();
   const currentUser = useStore((state) => state.currentUser);
 
@@ -31,13 +28,9 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
   };
 
   const handleClickCancel = async () => {
+    const { mutate } = usePatchOrderStatusSelect;
     mutate({ ...order, order_status: "CANCEL" });
-    router.refresh();
   };
-
-  if (isCancelError) {
-    console.log(isCancelError);
-  }
 
   const getStatus = (status: string) => {
     switch (status) {
@@ -98,7 +91,6 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
           <option value="READ">既読</option>
           <option value="ARRANGE">手配済み</option>
           <option value="SHIPPING">出荷</option>
-          <option value="CANCEL">キャンセル</option>
         </select>
       </td>
     </tr>
