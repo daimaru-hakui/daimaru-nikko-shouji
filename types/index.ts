@@ -70,7 +70,7 @@ export type Supplier = {
 
 export type Order = {
   id: number;
-  order_status: string;
+  order_status: "UNREAD" | "READ" | "ARRANGE" | "CANCEL" | "SHIPPING";
   order_number: string;
   topic_name: string;
   order_details: OrderDetail[];
@@ -101,14 +101,14 @@ export type OrderDetail = {
   quantity: number;
   comment: string;
   order_quantity: number;
-  price:number;
+  price: number;
   supplier_id: number;
   processing: boolean;
   suppliers: Supplier;
 };
 
 export type OrderContent = {
-  id:number,
+  id: number;
   supplierId: number;
   productNumber: string;
   productName: string;

@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Users {
-  id    String @id @unique
-  email String @unique
-  username String?
-  role Role? @default(USER)
-  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  id         String   @id @unique
+  email      String   @unique
+  username   String?
+  role       Role?    @default(USER)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
   @@map("users")
 }
 
@@ -25,18 +26,25 @@ enum Role {
   MEMBER
 }
 
+enum OrderRole {
+  UNREAD
+  READ
+  ARRANGE
+  CANCEL
+  SHIPPING
+}
+
 model orders {
-  id                  Int                @id @default(autoincrement())
-  created_at          DateTime           @default(now()) @db.Timestamptz(6)
-  order_number        String             @default("")
-  topic_name          String             @default("")
-  order_status        String             @default("UNREAD")
-  deleted_at          DateTime?          @db.Timestamp(6)
+  id                  Int                  @id @default(autoincrement())
+  created_at          DateTime             @default(now()) @db.Timestamptz(6)
+  order_number        String               @default("")
+  topic_name          String               @default("")
+  order_status        OrderRole            @default(UNREAD)
+  deleted_at          DateTime?            @db.Timestamp(6)
   order_details       order_details[]
   shipping_address_id Int
-  shipping_addresses  shipping_addresses @relation(fields: [shipping_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shipping_addresses  shipping_addresses   @relation(fields: [shipping_address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shipping_histories  shipping_histories[]
-
 }
 
 model order_details {
@@ -58,7 +66,7 @@ model order_details {
   shipping_details shipping_details[]
 }
 
-model shipping_addresses { 
+model shipping_addresses {
   id                 Int                  @id @default(autoincrement())
   created_at         DateTime             @default(now()) @db.Timestamptz(6)
   updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
@@ -92,11 +100,10 @@ model shipping_histories {
   order_id            Int
   orders              orders              @relation(fields: [order_id], references: [id], onDelete: Cascade)
   shipping_label      Int?
-  }
-
+}
 
 model suppliers {
-  id            Int          @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   created_at    DateTime        @default(now()) @db.Timestamptz(6)
   name          String          @default("")
   code          String          @default("-")

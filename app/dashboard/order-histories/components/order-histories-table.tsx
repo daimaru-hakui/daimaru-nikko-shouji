@@ -9,6 +9,8 @@ const OrderHistoriesTable: FC = () => {
 
   const StyleTableTh = "";
 
+  console.log(orders)
+
   return (
     <div className="mt-12 w-full overflow-auto">
       <table className="w-full max-w-[calc(1500px)] min-w-[calc(1200px)]">

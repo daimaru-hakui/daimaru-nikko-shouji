@@ -1,6 +1,5 @@
 import { Order } from "@/types/index";
-import { bigintToIntHandler } from "@/utils/functions";
-import { OrderRole, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -29,6 +28,8 @@ export async function GET(
     });
     return data;
   };
+
+  const data = await prisma.orders.findMany()
 
   try {
     const data = await getOrder();

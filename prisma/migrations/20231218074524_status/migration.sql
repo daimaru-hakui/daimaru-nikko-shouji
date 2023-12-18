@@ -1,0 +1,2 @@
+-- CreateEnum
+CREATE TYPE "OrderRole" AS ENUM ('UNREAD', 'READ', 'ARRANGE', 'CANCEL', 'SHIPPING');
