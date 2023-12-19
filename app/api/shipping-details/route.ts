@@ -5,14 +5,14 @@ export async function GET(req: NextRequest) {
   const prisma = new PrismaClient();
 
   try {
-    const data = await prisma.shipping_details.findMany({
+    const data = await prisma.shippingDetails.findMany({
       include: {
-        shipping_histories: {
+        shippingHistories: {
           include: {
             orders: true,
           },
         },
-        order_details: true,
+        orderDetails: true,
       },
     });
     return NextResponse.json(data, { status: 200 });

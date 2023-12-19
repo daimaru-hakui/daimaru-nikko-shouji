@@ -5,7 +5,7 @@ export type User = {
   email: string;
   username: string | null;
   role: "ADMIN" | "USER" | "MEMBER" | null;
-  created_at: Date;
+  createdAt: Date;
 };
 
 export type OrderInputs = {
@@ -42,7 +42,7 @@ export type Carts = {
 export type ShippingScheduleInputs = {
   shippingDate: string;
   contents: {
-    order_detail_id: number;
+    orderDetailId: number;
     quantity: number;
     remainingQuantity: number;
     shippingAddress: number;
@@ -52,59 +52,81 @@ export type ShippingScheduleInputs = {
 
 export type ShippingAddress = {
   id: number;
-  created_at: Date;
-  updated_at: Date | null;
+  createdAt: Date;
+  updatedAt: Date | null;
   name: string;
   tel: string;
   address: string;
-  post_code: string;
+  postCode: string;
 };
 
 export type Supplier = {
   id: number;
-  created_at: Date;
+  createdAt: Date;
   name: string;
   code: string;
   turn: number;
 };
 
+export type OrderStatus = "UNREAD" | "READ" | "ARRANGE" | "CANCEL" | "SHIPPING";
+
 export type Order = {
   id: number;
-  order_status: "UNREAD" | "READ" | "ARRANGE" | "CANCEL" | "SHIPPING";
-  order_number: string;
-  topic_name: string;
-  order_details: OrderDetail[];
-  shipping_address_id: number;
-  shipping_addresses: ShippingAddress;
-  created_at: Date;
-  deleted_at: Date | null;
+  orderStatus: OrderStatus;
+  orderNumber: string;
+  topicName: string;
+  orderDetails: OrderDetail[];
+  shippingAddressId: number;
+  shippingAddresses: ShippingAddress;
+  createdAt: Date;
+  deletedAt: Date | null;
+  // contents: OrderDetail[];
 };
 
 export type CreateOrder = {
   id: number;
-  created_at: Date;
-  order_number: string;
-  topic_name: string;
-  order_status: string;
-  deleted_at: Date | null;
-  shipping_address_id: number;
+  createdAt: Date;
+  orderNumber: string;
+  topicName: string;
+  orderStatus: OrderStatus;
+  deletedAt: Date | null;
+  shippingAddressId: number;
 };
 
 export type OrderDetail = {
   id: number;
-  created_at: Date;
-  order_id: number;
-  product_number: string;
-  product_name: string;
+  createdAt: Date;
+  orderId: number;
+  productNumber: string;
+  productName: string;
   color: string;
   size: string;
   quantity: number;
   comment: string;
-  order_quantity: number;
+  orderQuantity: number;
   price: number;
-  supplier_id: number;
+  supplierId: number;
   processing: boolean;
   suppliers: Supplier;
+  remainingQuantity: number;
+};
+
+export type OrderDetailInputs = {
+  id: number;
+  createdAt: Date;
+  orderId: number;
+  productNumber: string;
+  productName: string;
+  color: string;
+  size: string;
+  quantity: number;
+  comment: string;
+  orderQuantity: number;
+  price: number;
+  supplierId: number;
+  processing: boolean;
+  suppliers: Supplier;
+  remainingQuantity: number;
 };
 
 export type OrderContent = {
@@ -124,18 +146,18 @@ export type OrderContent = {
 
 export type ShippingSchedule = {
   id: number;
-  created_at: Date;
-  product_number: string;
-  product_name: string;
+  createdAt: Date;
+  productNumber: string;
+  productName: string;
   color: string;
   size: string;
   quantity: number;
   comment: string;
-  order_quantity: number;
+  orderQuantity: number;
   processing: boolean;
-  order_id: number;
+  orderId: number;
   orders: Order;
-  supplier_id: number;
+  supplierId: number;
   suppliers: Supplier;
 };
 
@@ -152,29 +174,29 @@ export type ShippingInputs = {
 
 export type ShippingHistory = {
   id: number;
-  shipping_date: Date;
-  shipping_address_id: number;
-  shipping_addresses: ShippingAddress;
-  shipping_details: ShippingDetail[];
-  order_id: number;
+  shippingDate: Date;
+  shippingAddressId: number;
+  shippingAddresses: ShippingAddress;
+  shippingDetails: ShippingDetail[];
+  orderId: number;
   orders: Order;
-  created_at: Date;
+  createdAt: Date;
 };
 
 export type ShippingDetail = {
   id: number;
-  order_detail_id: number;
+  orderDetailId: number;
   shipping_date: Date;
   quantity: number;
-  created_at: Date;
+  createdAt: Date;
 };
 
 export type ShippingDetailHistory = {
   id: number;
-  order_detail_id: number;
-  order_details: OrderDetail;
-  shipping_history_id: number;
-  shipping_histories: ShippingHistory;
+  orderDetailId: number;
+  orderDetails: OrderDetail;
+  shippingHistoryId: number;
+  shippingHistories: ShippingHistory;
   quantity: number;
-  created_at: Date;
+  createdAt: Date;
 };

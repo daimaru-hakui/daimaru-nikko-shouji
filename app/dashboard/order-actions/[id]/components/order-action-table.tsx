@@ -15,8 +15,8 @@ const OrderHistoryTable = () => {
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      if (!order?.order_details) return;
-      setCheckedOrders([...order?.order_details]);
+      if (!order?.orderDetails) return;
+      setCheckedOrders([...order?.orderDetails]);
     } else {
       resetCheckedOrders();
     }
@@ -53,7 +53,7 @@ const OrderHistoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {order?.order_details?.map((orderDetail) => (
+          {order?.orderDetails?.map((orderDetail) => (
             <OrderHistoryTableRow
               key={orderDetail.id}
               orderDetail={orderDetail}

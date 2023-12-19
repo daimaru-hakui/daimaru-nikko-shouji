@@ -39,7 +39,7 @@ const ShippingSchedulesTableRow: FC<Props> = ({
       key={shippingSchedule.id}
       style={{
         backgroundColor:
-          shippingSchedule.orders?.order_status === "CANCEL"
+          shippingSchedule.orders?.orderStatus === "CANCEL"
             ? "#ccc"
             : "",
       }}
@@ -52,14 +52,14 @@ const ShippingSchedulesTableRow: FC<Props> = ({
         </Link>
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingSchedule.orders?.order_number}
+        {shippingSchedule.orders?.orderNumber}
       </td>
       <td className={`${StyleTableTd}`}>
-        {format(new Date(shippingSchedule.created_at), "yyyy年MM月dd日")}
+        {format(new Date(shippingSchedule.createdAt), "yyyy年MM月dd日")}
       </td>
       <td className={`${StyleTableTd}`}>{shippingSchedule.suppliers?.name}</td>
-      <td className={`${StyleTableTd}`}>{shippingSchedule.product_number}</td>
-      <td className={`${StyleTableTd}`}>{shippingSchedule?.product_name}</td>
+      <td className={`${StyleTableTd}`}>{shippingSchedule.productNumber}</td>
+      <td className={`${StyleTableTd}`}>{shippingSchedule?.productName}</td>
       <td className={`${StyleTableTd}`}>{shippingSchedule?.color}</td>
       <td className={`${StyleTableTd} text-center`}>
         {shippingSchedule?.size}
@@ -68,7 +68,7 @@ const ShippingSchedulesTableRow: FC<Props> = ({
         {shippingSchedule?.quantity}
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingSchedule.orders?.shipping_addresses?.name}
+        {shippingSchedule.orders?.shippingAddresses?.name}
       </td>
       <td className={`${StyleTableTd}`}>
         {shippingSchedule?.processing ? "二次加工" : ""}

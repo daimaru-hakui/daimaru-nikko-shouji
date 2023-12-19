@@ -1,5 +1,4 @@
 "use client";
-import { Checkbox } from "@material-tailwind/react";
 import React, { FC } from "react";
 import ShippingScheduleTableRow from "./shipping-schedules-table-row";
 import { useGetShippingScheduleAll } from "@/hooks/useGetShippingScheduleAll";

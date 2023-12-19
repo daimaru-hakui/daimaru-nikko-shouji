@@ -13,7 +13,7 @@ export async function GET(
     const data = await prisma.orders.findUnique({
       where: { id },
       include: {
-        order_details: {
+        orderDetails: {
           orderBy: [
             {
               id: "asc",
@@ -23,7 +23,7 @@ export async function GET(
             suppliers: true,
           },
         },
-        shipping_addresses: true,
+        shippingAddresses: true,
       },
     });
     return data;
@@ -44,7 +44,7 @@ export async function GET(
 
 export async function PATCH(req: NextRequest) {
   const { body }: { body: Order } = await req.json();
-  const { id, order_status } = body;
+  const { id, orderStatus } = body;
   const prisma = new PrismaClient();
 
   return await prisma
@@ -54,14 +54,14 @@ export async function PATCH(req: NextRequest) {
       });
 
       if (
-        resOrder?.order_status !== "CANCEL" &&
-        resOrder?.order_status !== "UNREAD" &&
-        order_status === "CANCEL"
+        resOrder?.orderStatus !== "CANCEL" &&
+        resOrder?.orderStatus !== "UNREAD" &&
+        orderStatus === "CANCEL"
       ) {
         return NextResponse.json("キャンセルできません。", { status: 409 });
       }
 
-      if (resOrder?.order_status === "CANCEL") {
+      if (resOrder?.orderStatus === "CANCEL") {
         return NextResponse.json("キャンセル済みです。", { status: 409 });
       }
 
@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
           id,
         },
         data: {
-          order_status,
+          orderStatus,
         },
       });
 

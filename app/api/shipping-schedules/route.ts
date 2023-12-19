@@ -5,26 +5,26 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const prisma = new PrismaClient();
   try {
-    const data = await prisma.order_details.findMany({
+    const data = await prisma.orderDetails.findMany({
       where: {
         quantity: {
           gt: 0,
         },
         orders: {
-          order_status: {
+          orderStatus: {
             "notIn": ["CANCEL"],
           },
         },
       },
       orderBy: [
         {
-          created_at: "desc",
+          createdAt: "desc",
         },
       ],
       include: {
         orders: {
           include: {
-            shipping_addresses: true,
+            shippingAddresses: true,
           },
         },
         suppliers: true,

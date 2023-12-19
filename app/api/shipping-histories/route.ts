@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const prisma = new PrismaClient();
   try {
-    const data = await prisma.shipping_details.findMany({
+    const data = await prisma.shippingDetails.findMany({
       include: {
-        shipping_histories: {
+        shippingHistories: {
           include: {
-            shipping_addresses: true,
+            shippingAddresses: true,
             orders:true
           },
         },
-        order_details: true,
+        orderDetails: true,
       },
     });
     return NextResponse.json(data, { status: 200 });

@@ -40,18 +40,18 @@ const OrderHistoryTableRow: FC<Props> = ({ orderDetail }) => {
       <td className={`${StyleTableTd}`}>{orderDetail.suppliers.name}</td>
       <td className={`${StyleTableTd}`}>
         <div className="flex gap-6">
-          <div>{orderDetail.product_number}</div>
+          <div>{orderDetail.productNumber}</div>
           <div>{orderDetail.color}</div>
         </div>
-        <div>{orderDetail.product_name}</div>
+        <div>{orderDetail.productName}</div>
       </td>
       <td className={`${StyleTableTd} w-25`}>
         <div>{orderDetail?.size}</div>
-        <div className="text-center">{orderDetail?.order_quantity}</div>
+        <div className="text-center">{orderDetail?.orderQuantity}</div>
       </td>
       <td className={`${StyleTableTd} text-center`}>{orderDetail?.quantity}</td>
       <td className={`${StyleTableTd} text-center`}>
-        {orderDetail?.order_quantity - orderDetail?.quantity}
+        {orderDetail?.orderQuantity - orderDetail?.quantity}
       </td>
       <td className={`${StyleTableTd}`}>
         {orderDetail?.processing ? "あり" : ""}

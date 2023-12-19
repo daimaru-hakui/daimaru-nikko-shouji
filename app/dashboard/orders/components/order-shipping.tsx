@@ -24,7 +24,7 @@ const OrderShipping: FC = () => {
         <div className="">
           <div>{shippingAddress?.name}</div>
           <div className="flex gap-3  w-full">
-            <div>{shippingAddress?.post_code}</div>
+            <div>{shippingAddress?.postCode}</div>
             <div>{shippingAddress?.address}</div>
           </div>
           <div className="flex gap-3 w-full">

@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { NextPage } from "next";
 import React from "react";
 import OrderHistoryTable from "./components/order-histories-table";

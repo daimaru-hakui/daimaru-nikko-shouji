@@ -14,14 +14,14 @@ const ShippingInvoicesTableRow: FC<Props> = ({ shippingInvoice }) => {
     <tr>
       <td className={`${StyleTableTd}`}><Button size="sm">詳細</Button></td>
       <td className={`${StyleTableTd}`}>{zeroPadding(shippingInvoice.id)}</td>
-      <td className={`${StyleTableTd}`}>{zeroPadding(shippingInvoice.order_id)}</td>
-      <td className={`${StyleTableTd}`}>{shippingInvoice.orders.order_number}</td>
+      <td className={`${StyleTableTd}`}>{zeroPadding(shippingInvoice.orderId)}</td>
+      <td className={`${StyleTableTd}`}>{shippingInvoice.orders.orderNumber}</td>
       <td className={`${StyleTableTd}`}>
-        {format(new Date(shippingInvoice.created_at), "yyyy年MM月dd日")}
+        {format(new Date(shippingInvoice.createdAt), "yyyy年MM月dd日")}
       </td>
 
       <td className={`${StyleTableTd} text-center`}>
-        {shippingInvoice?.shipping_addresses?.name}
+        {shippingInvoice?.shippingAddresses?.name}
       </td>
     </tr>
   );

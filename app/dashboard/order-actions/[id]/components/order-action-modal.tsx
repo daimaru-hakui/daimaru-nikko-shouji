@@ -81,7 +81,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
               </div>
               <div>
                 <div className="text-sm">貴社発注ナンバー</div>
-                <div className="text-black">{order.order_number}</div>
+                <div className="text-black">{order.orderNumber}</div>
               </div>
             </div>
 
@@ -102,7 +102,7 @@ const OrderHistoryModal: FC<Props> = ({ order }) => {
                 <div className="text-black">
                   <select
                     className={`${inputStyle}`}
-                    defaultValue={order.shipping_address_id}
+                    defaultValue={order.shippingAddressId}
                     {...register("shippingAddressId")}
                   >
                     <option value="">選択してください</option>

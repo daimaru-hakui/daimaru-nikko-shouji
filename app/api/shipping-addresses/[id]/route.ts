@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { id: number; }; }
 ) {
   const prisma = new PrismaClient();
-  const res = await prisma.shipping_addresses.findUnique({
+  const res = await prisma.shippingAddresses.findUnique({
     where: {
       id: Number(params.id),
     },

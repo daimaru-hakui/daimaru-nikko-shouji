@@ -61,14 +61,14 @@ const OrderHistoriesModal: FC<Props> = ({ order }) => {
             </div>
             <div>
               <div className="text-sm">貴社発注ナンバー</div>
-              <div className="ml-4 text-black">{order.order_number}</div>
+              <div className="ml-4 text-black">{order.orderNumber}</div>
             </div>
           </div>
           <div className="mt-6 flex gap-6">
             <div>
               <div className="text-sm">発注日時</div>
               <div className="ml-4 text-black">
-                {format(new Date(order.created_at), "yyyy年MM月dd日 HH時mm分")}
+                {format(new Date(order.createdAt), "yyyy年MM月dd日 HH時mm分")}
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@ const OrderHistoriesModal: FC<Props> = ({ order }) => {
             <div>
               <div className="text-sm">送り先</div>
               <div className="ml-4 text-black">
-                {order.shipping_addresses?.name}
+                {order.shippingAddresses?.name}
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@ const OrderHistoriesModal: FC<Props> = ({ order }) => {
                 </tr>
               </thead>
               <tbody>
-                {order.order_details?.map((detail) => (
+                {order.orderDetails?.map((detail) => (
                   <OrderHistoriesModalTableRow key={detail.id} detail={detail} />
                 ))}
               </tbody>

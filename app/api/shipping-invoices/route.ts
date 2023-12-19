@@ -5,15 +5,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const prisma = new PrismaClient();
   try {
-    const data = await prisma.shipping_histories.findMany({
+    const data = await prisma.shippingHistories.findMany({
       orderBy: [
         {
-          created_at: "desc",
+          createdAt: "desc",
         },
       ],
       include: {
-        shipping_addresses: true,
-        shipping_details: true,
+        shippingAddresses: true,
+        shippingDetails: true,
         orders: true,
       },
     });
@@ -30,26 +30,26 @@ export async function POST(req: NextRequest) {
   const prisma = new PrismaClient();
   try {
     await prisma.$transaction(async (prisma) => {
-      const shippingHistory = await prisma.shipping_histories.create({
+      const shippingHistory = await prisma.shippingHistories.create({
         data: {
-          shipping_date: new Date(body.shippingDate).toISOString(),
-          shipping_address_id: Number(body.shippingAddressId),
-          order_id: Number(body.orderId),
+          shippingDate: new Date(body.shippingDate).toISOString(),
+          shippingAddressId: Number(body.shippingAddressId),
+          orderId: Number(body.orderId),
         },
       });
       const shippingDetails = body.contents.map((content: any) => {
         return {
-          shipping_history_id: shippingHistory.id,
-          order_detail_id: content.orderDetailId,
+          shippingHistoryId: shippingHistory.id,
+          orderDetailId: content.orderDetailId,
           quantity: Number(content.quantity),
         };
       });
-      await prisma.shipping_details.createMany({
+      await prisma.shippingDetails.createMany({
         data: [...shippingDetails],
       });
 
       for (const content of body.contents) {
-        const orderDetail = await prisma.order_details.findUnique({
+        const orderDetail = await prisma.orderDetails.findUnique({
           where: {
             id: content.orderDetailId,
           },
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
           orderDetail?.quantity - Number(content.quantity) >= 0 ? true : false;
         if (!result) throw new Error("在庫数が足りません。");
         const quantity = orderDetail?.quantity - Number(content.quantity);
-        await prisma.order_details.update({
+        await prisma.orderDetails.update({
           where: {
             id: orderDetail.id,
           },

@@ -12,7 +12,7 @@ interface Props {
 
 type Inputs = {
   shippingAddressId: string;
-  contents: OrderContent[];
+  orderDetails: OrderDetail[];
 };
 
 const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
@@ -23,10 +23,10 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
   //   setValue(`contents.${idx}.orderDetailId`, orderDetailId);
 
   const quantity =
-    detail.quantity - watch(`contents.${idx}.quantity`) >= 0
-      ? detail.quantity - watch(`contents.${idx}.quantity`)
+    detail.quantity - watch(`orderDetails.${idx}.quantity`) >= 0
+      ? detail.quantity - watch(`orderDetails.${idx}.quantity`)
       : 0;
-  setValue(`contents.${idx}.remainingQuantity`, quantity);
+  setValue(`orderDetails.${idx}.remainingQuantity`, quantity);
   // const reduceSum = (detail: OrderDetail) => {
   //   const array = detail.shipping_details.map((detail) => detail.quantity);
   //   const sum = array.reduce((prev, current) => prev + current, 0);
@@ -42,8 +42,8 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
         <select
           style={{ padding: "0.5rem" }}
           className={`${inputStyle}`}
-          defaultValue={detail.supplier_id}
-          {...register(`contents.${idx}.supplierId`)}
+          defaultValue={detail.supplierId}
+          {...register(`orderDetails.${idx}.supplierId`)}
         >
           <option value="">選択してください</option>
           {suppliers?.map(({ id, name }) => (
@@ -58,25 +58,25 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           autoComplete="off"
           list="productNumbers"
           className={`${inputStyle} max-w-[calc(120px)]`}
-          {...register(`contents.${idx}.productNumber`, { maxLength: 200 })}
+          {...register(`orderDetails.${idx}.productNumber`, { maxLength: 200 })}
         />
       </td>
       <td className={`${StyleTableTd}`}>
         <input
           className={`${inputStyle}`}
-          {...register(`contents.${idx}.productName`, { maxLength: 200 })}
+          {...register(`orderDetails.${idx}.productName`, { maxLength: 200 })}
         />
       </td>
       <td className={`${StyleTableTd}`}>
         <input
           className={`${inputStyle}`}
-          {...register(`contents.${idx}.color`, { maxLength: 200 })}
+          {...register(`orderDetails.${idx}.color`, { maxLength: 200 })}
         />
       </td>
       <td className={`${StyleTableTd} text-center`}>
         <input
           className={`${inputStyle} max-w-[calc(80px)]`}
-          {...register(`contents.${idx}.size`, { maxLength: 200 })}
+          {...register(`orderDetails.${idx}.size`, { maxLength: 200 })}
         />
       </td>
       <td className={`${StyleTableTd} text-center`}>
@@ -84,8 +84,8 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           type="number"
           className={`${inputStyle}`}
           style={{ width: "80px" }}
-          defaultValue={detail.order_quantity}
-          {...register(`contents.${idx}.orderQuantity`, {
+          defaultValue={detail.orderQuantity}
+          {...register(`orderDetails.${idx}.orderQuantity`, {
             min: 0,
           })}
         />
@@ -96,7 +96,7 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           className={`${inputStyle}`}
           style={{ width: "80px" }}
           defaultValue={detail.quantity}
-          {...register(`contents.${idx}.quantity`, {
+          {...register(`orderDetails.${idx}.quantity`, {
             min: 1,
            
           })}
@@ -107,7 +107,7 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
           type="number"
           className={`${inputStyle}`}
           style={{ width: "80px" }}
-          {...register(`contents.${idx}.price`)}
+          {...register(`orderDetails.${idx}.price`)}
         />
       </td>
       {/* <td className={`${StyleTableTd} text-center`}>{reduceSum(detail)}</td> */}
@@ -115,14 +115,14 @@ const OrderEditModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
         <div className="flex justify-center">
           <Switch
             crossOrigin={undefined}
-            {...register(`contents.${idx}.processing`)}
+            {...register(`orderDetails.${idx}.processing`)}
           />
         </div>
       </td>
       <td className={`${StyleTableTd}`}>
         <input
           className={`${inputStyle}`}
-          {...register(`contents.${idx}.comment`, { maxLength: 200 })}
+          {...register(`orderDetails.${idx}.comment`, { maxLength: 200 })}
         />
       </td>
     </tr>

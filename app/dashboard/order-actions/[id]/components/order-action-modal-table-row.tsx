@@ -35,11 +35,11 @@ const OrderHistoryModalTableRow: FC<Props> = ({ detail, methods, idx }) => {
   return (
     <tr key={detail.id}>
       <td className={`${StyleTableTd}`}>{detail.suppliers?.name}</td>
-      <td className={`${StyleTableTd}`}>{detail.product_number}</td>
-      <td className={`${StyleTableTd}`}>{detail.product_name}</td>
+      <td className={`${StyleTableTd}`}>{detail.productNumber}</td>
+      <td className={`${StyleTableTd}`}>{detail.productName}</td>
       <td className={`${StyleTableTd}`}>{detail.color}</td>
       <td className={`${StyleTableTd} text-center`}>{detail.size}</td>
-      <td className={`${StyleTableTd} text-center`}>{detail.order_quantity}</td>
+      <td className={`${StyleTableTd} text-center`}>{detail.orderQuantity}</td>
       <td className={`${StyleTableTd} text-center`}>{detail.quantity}</td>
       <td className={`${StyleTableTd} text-center`}>
         <input

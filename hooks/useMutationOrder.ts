@@ -19,6 +19,13 @@ export const useMutationOrder = () => {
     return data;
   };
 
+  const usePatchOrder = useMutation({
+    mutationFn: (params: Params) => fetcher(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+    },
+  });
+
   const usePatchOrderStatusSelect = useMutation({
     mutationFn: (params: Params) => fetcher(params),
     onMutate: async (params: Order) => {
@@ -49,6 +56,7 @@ export const useMutationOrder = () => {
   });
 
   return {
+    usePatchOrder,
     usePatchOrderStatusSelect
   };
 

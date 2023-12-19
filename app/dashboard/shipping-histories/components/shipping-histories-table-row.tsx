@@ -13,34 +13,34 @@ const ShippingHistoriesTableRow: FC<Props> = ({ shippingHistory }) => {
   return (
     <tr>
       <td className={`${StyleTableTd}`}>
-        {zeroPadding(shippingHistory.shipping_history_id)}
+        {zeroPadding(shippingHistory.shippingHistoryId)}
       </td>
       <td className={`${StyleTableTd}`}>
-        {zeroPadding(shippingHistory.order_details.order_id)}
+        {zeroPadding(shippingHistory.orderDetails.orderId)}
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingHistory.shipping_histories.orders.order_number}
+        {shippingHistory.shippingHistories.orders.orderNumber}
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingHistory.order_details.product_number}
+        {shippingHistory.orderDetails.productNumber}
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingHistory.order_details.product_name}
+        {shippingHistory.orderDetails.productName}
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingHistory.order_details.size}
+        {shippingHistory.orderDetails.size}
       </td>
       <td className={`${StyleTableTd}`}>
-        {shippingHistory.order_details.color}
+        {shippingHistory.orderDetails.color}
       </td>
       <td className={`${StyleTableTd}`}>{shippingHistory.quantity}</td>
-      <td className={`${StyleTableTd}`}>{shippingHistory.order_details.processing ? "あり" : ""}</td>
+      <td className={`${StyleTableTd}`}>{shippingHistory.orderDetails.processing ? "あり" : ""}</td>
       <td className={`${StyleTableTd}`}>
-        {format(new Date(shippingHistory.shipping_histories.shipping_date), "yyyy年MM月dd日")}
+        {format(new Date(shippingHistory.shippingHistories.shippingDate), "yyyy年MM月dd日")}
       </td>
 
       <td className={`${StyleTableTd} text-center`}>
-        {shippingHistory.shipping_histories.shipping_addresses.name}
+        {shippingHistory.shippingHistories.shippingAddresses.name}
       </td>
     </tr>
   );

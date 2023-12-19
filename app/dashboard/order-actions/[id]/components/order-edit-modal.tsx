@@ -11,13 +11,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import { format } from "date-fns";
 import OrderEditModalTableRow from "./order-edit-modal-table-row";
 import { useStore } from "@/store/index";
-import { Order, OrderContent } from "@/types/index";
+import { Order, OrderDetail, OrderDetailInputs } from "@/types/index";
 import { zeroPadding } from "@/utils/functions";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
 import OrderEditModalTableHead from "./order-edit-modal-table-head";
-import { useMutationShippingHistory } from "@/hooks/useMutationShippingHistory";
-import { useMutationOrderDetail } from "@/hooks/useMutationOrderDetail";
+import { useMutationOrder } from "@/hooks/useMutationOrder";
 
 interface Props {
   order: Order;
@@ -25,7 +24,7 @@ interface Props {
 
 type Inputs = {
   shippingAddressId: string;
-  contents: OrderContent[];
+  orderDetails: OrderDetail[];
 };
 
 const OrderEditModal: FC<Props> = ({ order }) => {
@@ -35,29 +34,31 @@ const OrderEditModal: FC<Props> = ({ order }) => {
   const checkedOrders = useStore((state) => state.checkedOrders);
   const resetCheckedOrders = useStore((state) => state.resetCheckedOrders);
   const { shippingAddresses } = useGetShippingAddressAll();
-  const { usePatchOrderDetail } = useMutationOrderDetail();
-  const contents = order.order_details.map((detail) => ({
+  const { usePatchOrder } = useMutationOrder();
+  const orderDetails = order.orderDetails.map((detail) => ({
     id: detail.id,
-    supplierId: detail.supplier_id,
-    productNumber: detail.product_number,
-    productName: detail.product_name,
+    supplierId: detail.supplierId,
+    productNumber: detail.productNumber,
+    productName: detail.productName,
     color: detail.color,
     size: detail.size,
-    orderQuantity: detail.order_quantity,
+    orderQuantity: detail.orderQuantity,
     price: detail.price,
     quantity: detail.quantity,
     processing: detail.processing,
     comment: detail.comment,
   }));
+
   const methods = useForm<Inputs>({
     defaultValues: {
-      contents: [...contents],
+      orderDetails: [...orderDetails],
     },
   });
+
   const { register, handleSubmit, reset } = methods;
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { mutate } = usePatchOrderDetail;
-    mutate(data?.contents);
+    const { mutate } = usePatchOrder;
+    mutate({ ...order, orderDetails: data?.orderDetails });
     resetCheckedOrders();
   };
 
@@ -98,7 +99,7 @@ const OrderEditModal: FC<Props> = ({ order }) => {
               </div>
               <div>
                 <div className="text-sm">貴社発注ナンバー</div>
-                <div className="text-black">{order.order_number}</div>
+                <div className="text-black">{order.orderNumber}</div>
               </div>
             </div>
 
@@ -108,7 +109,7 @@ const OrderEditModal: FC<Props> = ({ order }) => {
                 <div className="text-black">
                   <select
                     className={`${inputStyle}`}
-                    defaultValue={order.shipping_address_id}
+                    defaultValue={order.shippingAddressId}
                     {...register("shippingAddressId")}
                   >
                     <option value="">選択してください</option>

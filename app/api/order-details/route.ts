@@ -9,15 +9,15 @@ export async function PATCH(req: NextRequest) {
   return await prisma
     .$transaction(async (prisma) => {
       for (let orderDetail of body) {
-        await prisma.order_details.update({
+        await prisma.orderDetails.update({
           where: { id: orderDetail.id },
           data: {
-            product_number: orderDetail.productNumber,
-            product_name: orderDetail.productName,
+            productNumber: orderDetail.productNumber,
+            productName: orderDetail.productName,
             color: orderDetail.color,
             size: orderDetail.size,
             price: Number(orderDetail.price),
-            order_quantity: Number(orderDetail.orderQuantity),
+            orderQuantity: Number(orderDetail.orderQuantity),
             quantity: Number(orderDetail.quantity),
             processing: orderDetail.processing,
             comment: orderDetail.comment,
