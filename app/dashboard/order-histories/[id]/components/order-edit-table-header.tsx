@@ -5,8 +5,11 @@ const OrderEditTableHeader = () => {
   return (
     <tr>
       <th className={`${StyleTableTh}`}>メーカー</th>
-      <th className={`${StyleTableTh}`}>品番/品名/カラー</th>
-      <th className={`${StyleTableTh}`}>サイズ／発注数</th>
+      <th className={`${StyleTableTh}`}>品番</th>
+      <th className={`${StyleTableTh}`}>品名</th>
+      <th className={`${StyleTableTh}`}>カラー</th>
+      <th className={`${StyleTableTh}`}>サイズ</th>
+      <th className={`${StyleTableTh}`}>発注数</th>
       <th className={`${StyleTableTh}`}>残数</th>
       <th className={`${StyleTableTh}`}>出荷数</th>
       <th className={`${StyleTableTh}`}>二次加工</th>

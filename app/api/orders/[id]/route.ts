@@ -1,4 +1,4 @@
-import { OrderContent } from "@/types/index";
+import { Order } from "@/types/index";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,12 +41,22 @@ export async function GET(
 }
 
 export async function PATCH(req: NextRequest) {
-  const { body }: { body: OrderContent[] } = await req.json();
+  const { body }: { body: Order } = await req.json();
   const prisma = new PrismaClient();
 
   return await prisma
     .$transaction(async (prisma) => {
-      for (let orderDetail of body) {
+      await prisma.orders.update({
+        where: {
+          id: body.id,
+        },
+        data: {
+          orderNumber: body.orderNumber,
+          topicName: body.topicName,
+          shippingAddressId: Number(body.shippingAddressId),
+        },
+      });
+      for await (let orderDetail of body.orderDetails) {
         await prisma.orderDetails.update({
           where: { id: orderDetail.id },
           data: {
@@ -65,6 +75,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json("更新しました", { status: 200 });
     })
     .catch((err) => {
+      console.log(err);
       return NextResponse.json(err, { status: 409 });
     });
 }

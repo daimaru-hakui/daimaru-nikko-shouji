@@ -28,7 +28,7 @@ const OrderEditHeader: FC<Props> = ({ methods }) => {
         </div>
         <div>
           <div className="text-sm text-gray-600">貴社発注番号</div>
-          <input className="text-black" {...register("orderNumber")} />
+          <input className="p-1 text-black" {...register("orderNumber")} />
         </div>
         <div>
           <div className="text-sm text-gray-600">発注日時</div>

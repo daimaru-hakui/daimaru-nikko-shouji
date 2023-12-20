@@ -1,5 +1,3 @@
-import { suppliers } from "@prisma/client";
-
 export type User = {
   id: string;
   email: string;
@@ -80,17 +78,6 @@ export type Order = {
   shippingAddresses: ShippingAddress;
   createdAt: Date;
   deletedAt: Date | null;
-  // contents: OrderDetail[];
-};
-
-export type CreateOrder = {
-  id: number;
-  createdAt: Date;
-  orderNumber: string;
-  topicName: string;
-  orderStatus: OrderStatus;
-  deletedAt: Date | null;
-  shippingAddressId: number;
 };
 
 export type OrderDetail = {
@@ -108,8 +95,19 @@ export type OrderDetail = {
   supplierId: number;
   processing: boolean;
   suppliers: Supplier;
-  remainingQuantity: number;
+  // remainingQuantity: number;
 };
+
+export type CreateOrder = {
+  id: number;
+  createdAt: Date;
+  orderNumber: string;
+  topicName: string;
+  orderStatus: OrderStatus;
+  deletedAt: Date | null;
+  shippingAddressId: number;
+};
+
 
 export type OrderDetailInputs = {
   id: number;

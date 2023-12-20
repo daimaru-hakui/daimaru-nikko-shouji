@@ -2,26 +2,34 @@ import React from "react";
 import OrderEditArea from "./components/order-edit-area";
 import { PrismaClient } from "@prisma/client";
 
-const OrderEditPage = async () => {
+
+const OrderEditPage = async ({ params }: { params: { id: number } }) => {
+  const id = params.id;
   const prisma = new PrismaClient();
 
   const getOrderById = async () => {
     const data = await prisma.orders.findUnique({
       where: {
-        id: 10,
+        id: Number(id),
       },
       include: {
-        orderDetails: true,
+        shippingAddresses: true,
+        orderDetails: {
+          include: {
+            suppliers: true,
+          },
+        },
       },
     });
     return data;
   };
+  const data = await getOrderById();
+  if (!data) return;
 
-  console.log(await getOrderById());
   return (
-    <div className="w-full max-w-[calc(1100px)] mx-auto">
+    <div className="w-full max-w-[calc(1400px)] mx-auto">
       <h1 className="mt-6 text-3xl font-bold">編集</h1>
-      <OrderEditArea />
+      <OrderEditArea data={data} />
     </div>
   );
 };
