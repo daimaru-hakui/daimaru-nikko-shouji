@@ -23,14 +23,10 @@ const OrderEditArea: FC<Props> = ({ data }) => {
     mutate(data);
   };
 
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <OrderEditHeader methods={methods} />
       <OrderEditTable methods={methods} />
-      <Button className="mt-2" type="submit">
-        更新
-      </Button>
     </form>
   );
 };

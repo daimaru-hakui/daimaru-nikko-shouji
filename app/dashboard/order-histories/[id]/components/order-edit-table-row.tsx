@@ -20,7 +20,7 @@ const OrderEditTableRow: FC<Props> = ({ orderDetail, methods, idx }) => {
     <tr>
       <td className={`${StyleTableTd}`}>
         <select
-        style={{ width: "180px" }}
+          style={{ width: "180px" }}
           className={`${StyleInput}`}
           {...register(`orderDetails.${idx}.supplierId`)}
         >
@@ -33,7 +33,7 @@ const OrderEditTableRow: FC<Props> = ({ orderDetail, methods, idx }) => {
       </td>
       <td className={`${StyleTableTd}`}>
         <input
-          className={`${StyleInput}`}
+          className={`${StyleInput} w-25`}
           {...register(`orderDetails.${idx}.productNumber`)}
         />
       </td>
@@ -56,7 +56,15 @@ const OrderEditTableRow: FC<Props> = ({ orderDetail, methods, idx }) => {
           {...register(`orderDetails.${idx}.size`)}
         />
       </td>
-      <td className={`${StyleTableTd} w-25`}>
+      <td className={`${StyleTableTd} text-center`}>
+        <input
+          type="number"
+          style={{ width: "80px" }}
+          className={`${StyleInput}`}
+          {...register(`orderDetails.${idx}.price`)}
+        />
+      </td>
+     <td className={`${StyleTableTd} text-center`}>
         <input
           type="number"
           style={{ width: "80px" }}
@@ -71,10 +79,10 @@ const OrderEditTableRow: FC<Props> = ({ orderDetail, methods, idx }) => {
           className={`${StyleInput}`}
           {...register(`orderDetails.${idx}.quantity`)}
         />
-      </td>
-      <td style={{ width: "80px" }} className={`${StyleTableTd} text-center`}>
+      </td><td style={{ width: "80px" }} className={`${StyleTableTd} text-center`}>
         {orderDetail?.orderQuantity - orderDetail?.quantity}
       </td>
+      
       <td style={{ width: "100px" }} className={`${StyleTableTd}`}>
         {orderDetail?.processing ? "あり" : ""}
       </td>

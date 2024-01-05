@@ -7,6 +7,7 @@ import { useStore } from "@/store/index";
 import { zeroPadding } from "@/utils/functions";
 import { UseFormReturn } from "react-hook-form";
 import { Order } from "@/types/index";
+import { Button } from "@material-tailwind/react";
 
 type Inputs = Order;
 
@@ -21,6 +22,14 @@ const OrderEditHeader: FC<Props> = ({ methods }) => {
 
   return (
     <>
+      <div className="mt-6 flex justify-between items-center">
+        <h1 className="text-3xl font-bold">編集</h1>
+        <div>
+          <Button className="" type="submit">
+            更新
+          </Button>
+        </div>
+      </div>
       <div className="mt-12 flex gap-12">
         <div>
           <div className="text-sm text-gray-600">受付番号</div>

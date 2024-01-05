@@ -28,7 +28,6 @@ const OrderEditPage = async ({ params }: { params: { id: number } }) => {
 
   return (
     <div className="w-full max-w-[calc(1400px)] mx-auto">
-      <h1 className="mt-6 text-3xl font-bold">編集</h1>
       <OrderEditArea data={data} />
     </div>
   );
