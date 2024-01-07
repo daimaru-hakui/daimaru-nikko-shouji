@@ -3,7 +3,7 @@ import OrderEditArea from "./components/order-edit-area";
 import { PrismaClient } from "@prisma/client";
 
 
-const OrderEditPage = async ({ params }: { params: { id: number } }) => {
+const OrderEditPage = async ({ params }: { params: { id: number; }; }) => {
   const id = params.id;
   const prisma = new PrismaClient();
 

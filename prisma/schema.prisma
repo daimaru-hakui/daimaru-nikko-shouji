@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,29 +17,15 @@ model Users {
   @@map("users")
 }
 
-enum Role {
-  USER
-  ADMIN
-  MEMBER
-}
-
-enum OrderRole {
-  UNREAD
-  READ
-  ARRANGE
-  CANCEL
-  SHIPPING
-}
-
 model orders {
   id                Int                 @id @default(autoincrement())
   createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
   orderNumber       String              @default("") @map("order_number")
   topicName         String              @default("") @map("topic_name")
-  orderStatus       OrderRole           @default(UNREAD) @map("order_status")
   deletedAt         DateTime?           @map("deleted_at") @db.Timestamp(6)
-  orderDetails      orderDetails[]
+  orderStatus       OrderRole           @default(UNREAD) @map("order_status")
   shippingAddressId Int
+  orderDetails      orderDetails[]
   shippingAddresses shippingAddresses   @relation(fields: [shippingAddressId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shippingHistories shippingHistories[]
 
@@ -59,11 +42,11 @@ model orderDetails {
   quantity        Int               @default(0)
   comment         String            @default("")
   orderQuantity   Int               @default(0) @map("order_quantity")
-  processing      Boolean           @default(false)
-  price           Int               @default(0)
-  orderId         Int               @map("order_id")
-  orders          orders            @relation(fields: [orderId], references: [id], onDelete: Cascade)
   supplierId      Int               @map("supplier_id")
+  processing      Boolean           @default(false)
+  orderId         Int               @map("order_id")
+  price           Int               @default(0)
+  orders          orders            @relation(fields: [orderId], references: [id], onDelete: Cascade)
   suppliers       suppliers         @relation(fields: [supplierId], references: [id], onDelete: NoAction)
   shippingDetails shippingDetails[]
 
@@ -73,11 +56,11 @@ model orderDetails {
 model shippingAddresses {
   id                Int                 @id @default(autoincrement())
   createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt         DateTime?           @default(now()) @map("update_at") @db.Timestamptz(6)
   name              String              @default("")
   tel               String              @default("")
   address           String              @default("")
   postCode          String              @default("") @map("post_code")
+  updatedAt         DateTime?           @default(now()) @map("update_at") @db.Timestamptz(6)
   orders            orders[]
   shippingHistories shippingHistories[]
 
@@ -88,10 +71,10 @@ model shippingDetails {
   id                Int               @id @default(autoincrement())
   createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
   quantity          Int               @default(0)
-  updatedAt         DateTime          @default(now()) @map("update_at") @db.Timestamptz(6)
   orderDetailId     Int?              @map("order_detail_id")
-  orderDetails      orderDetails?     @relation(fields: [orderDetailId], references: [id], onDelete: Cascade)
   shippingHistoryId Int               @map("shipping_history_id")
+  updatedAt         DateTime          @default(now()) @map("update_at") @db.Timestamptz(6)
+  orderDetails      orderDetails?     @relation(fields: [orderDetailId], references: [id], onDelete: Cascade)
   shippingHistories shippingHistories @relation(fields: [shippingHistoryId], references: [id], onDelete: Cascade)
 
   @@map("shipping_details")
@@ -103,11 +86,11 @@ model shippingHistories {
   updatedAt         DateTime           @default(now()) @map("updated_at") @db.Timestamptz(6)
   shippingDate      DateTime           @map("shipping_date") @db.Date
   shippingAddressId Int?               @map("shipping_address_id")
-  shippingAddresses shippingAddresses? @relation(fields: [shippingAddressId], references: [id], onDelete: Cascade)
-  shippingDetails   shippingDetails[]
   orderId           Int                @map("order_id")
-  orders            orders             @relation(fields: [orderId], references: [id], onDelete: Cascade)
   shippingLabel     Int?               @map("shipping_label")
+  shippingDetails   shippingDetails[]
+  orders            orders             @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  shippingAddresses shippingAddresses? @relation(fields: [shippingAddressId], references: [id], onDelete: Cascade)
 
   @@map("shipping_histories")
 }
@@ -121,4 +104,18 @@ model suppliers {
   orderDetails orderDetails[]
 
   @@map("suppliers")
+}
+
+enum Role {
+  USER
+  ADMIN
+  MEMBER
+}
+
+enum OrderRole {
+  UNREAD
+  READ
+  ARRANGE
+  CANCEL
+  SHIPPING
 }

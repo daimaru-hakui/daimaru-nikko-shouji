@@ -6,7 +6,6 @@ import React from "react";
 import OrderActionModal from "./order-action-modal";
 import { useStore } from "@/store/index";
 import { zeroPadding } from "@/utils/functions";
-import OrderEditModal from "./order-edit-modal";
 
 const OrderHistoryHeader = () => {
   const params = useParams();
@@ -39,7 +38,6 @@ const OrderHistoryHeader = () => {
         {order && checkedOrders.length > 0 && (
           <div className="flex gap-3">
             <OrderActionModal order={order} />
-            <OrderEditModal order={order} />
           </div>
         )}
       </div>

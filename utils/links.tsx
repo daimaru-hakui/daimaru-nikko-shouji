@@ -11,12 +11,12 @@ export const sidebarLinks = [
     icon: <MdOutlineDashboardCustomize />,
   },
   {
-    path: "/dashboard/orders",
+    path: "/dashboard/orders/new",
     name: "発注入力",
     icon: <MdAddTask />,
   },
   {
-    path: "/dashboard/order-histories",
+    path: "/dashboard/orders",
     name: "発注履歴",
     icon: <FaHistory />,
   },

@@ -10,15 +10,15 @@ import { User } from "@/types/index";
 const Navbar = () => {
   const isSidebar = useStore((state) => state.isSidebar);
   const toggleIsSidebar = useStore((state) => state.toggleSidebar);
-  const setCurrentUser = useStore((state)=>state.setCurrentUser)
+  const setCurrentUser = useStore((state) => state.setCurrentUser);
   const session = useSession();
-  const { user }: { user: User } = useGetUserById({
+  const { user }: { user: User; } = useGetUserById({
     id: String(session.data?.user.uid),
   });
 
-  useEffect(()=>{
-    setCurrentUser(user)
-  },[user,setCurrentUser])
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user, setCurrentUser]);
 
 
   return (
