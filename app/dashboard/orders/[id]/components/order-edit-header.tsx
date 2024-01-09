@@ -8,6 +8,7 @@ import { zeroPadding } from "@/utils/functions";
 import { UseFormReturn } from "react-hook-form";
 import { Order } from "@/types/index";
 import { Button } from "@material-tailwind/react";
+import { useGetShippingAddressAll } from "@/hooks/useGetShippingAddressAll";
 
 type Inputs = Order;
 
@@ -18,6 +19,7 @@ type Props = {
 const OrderEditHeader: FC<Props> = ({ methods }) => {
   const params = useParams();
   const { order } = useGetOrderById({ id: Number(params.id) });
+  const { shippingAddresses } = useGetShippingAddressAll();
   const { register } = methods;
 
   return (
@@ -45,6 +47,20 @@ const OrderEditHeader: FC<Props> = ({ methods }) => {
             {order?.createdAt &&
               format(new Date(order?.createdAt), "yyyy年MM月dd日 HH時mm分")}
           </div>
+        </div>
+        <div>
+          <div className="text-sm text-gray-600">送り先</div>
+          <select
+            style={{ padding: "0.87rem" }}
+            {...register("shippingAddressId")}
+          >
+            <option value="">選択してください</option>
+            {shippingAddresses?.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <div className="text-sm text-gray-600">送り先</div>
