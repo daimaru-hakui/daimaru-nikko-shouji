@@ -49,7 +49,6 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
   };
 
   const StyleTableTd = "py-1 px-1 text-left border-b";
-
   return (
     <tr
       key={order.id}
@@ -58,7 +57,7 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
       <td className={`${StyleTableTd} w-[calc(250px)] pl-2`}>
         <div className="flex gap-2">
           <OrderHistoryModal order={order} />
-          {currentUser?.role === "ADMIN" && (
+          {/* {currentUser?.role === "ADMIN" && (
             <>
               <Link href={`/dashboard/order-actions/${order.id}`}>
                 <Button size="sm">処理</Button>
@@ -67,7 +66,15 @@ const OrderHistoriesTableRow: FC<Props> = ({ order }) => {
                 <Button size="sm">編集</Button>
               </Link>
             </>
-          )}
+          )} */}
+          <>
+            <Link href={`/dashboard/order-actions/${order.id}`}>
+              <Button size="sm">処理</Button>
+            </Link>
+            <Link href={`/dashboard/orders/${order.id}`}>
+              <Button size="sm">編集</Button>
+            </Link>
+          </>
         </div>
       </td>
       <td className={`${StyleTableTd}`}>{zeroPadding(order.id)}</td>

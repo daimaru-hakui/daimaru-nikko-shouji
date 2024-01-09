@@ -1,14 +1,15 @@
+import { NextPage } from "next";
 import React from "react";
-import OrderForm from "./components/order-form";
+import OrderHistoryTable from "./components/order-histories-table";
 
-const OrderOage = async () => {
+const OrderHistories: NextPage = async () => {
 
   return (
-    <div className="w-full max-w-[calc(1700px)]">
-      <h1 className="mt-6 text-3xl font-bold">Order</h1>
-      <OrderForm />
+    <div className="w-full max-w-[calc(1300px)] mx-auto">
+      <h1 className="mt-6 text-3xl font-bold">発注履歴</h1>
+      <OrderHistoryTable />
     </div>
   );
 };
 
-export default OrderOage;
+export default OrderHistories;
